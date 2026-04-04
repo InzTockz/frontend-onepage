@@ -1,17 +1,106 @@
-<div class="navbar">
-  <nav class="">
-    <ul class="ul-opciones">
+<div class="flex flex-row">
+  <div class="slider-bar p-5 flex flex-col min-h-screen w-[15%]">
+    <div>
+      <h1 class="mb-10 text-2xl md:text-xl font-bold md:font-semibold">OnePage - Battilana</h1>
+    </div>
+    <div>
+      <ul class="w-auto pr-[25%]">
+        <li class="p-2">
+          <button class="cursor-pointer flex items-center justify-between w-full">Inicio</button>
+        </li>
+        <li class="p-2">
+          <button
+            class="cursor-pointer flex items-center justify-between w-full"
+            (click)="primeraGestion = !primeraGestion"
+          >
+            <span> Primera Gestión </span>
+            <div class="divide"></div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5 md:w-6 md:h-6 transition-transform duration-300 ml-1"
+              [class.rotate-180]="primeraGestion"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+          @if (primeraGestion) {
+            <ul class="pl-5 mt-2 space-y-1">
+              <li class="p-2 hover:bg-gray-200 rounded cursor-pointer">Pedidos Diarios</li>
+              <li class="p-2 hover:bg-gray-200 rounded cursor-pointer">Envios Whatsapp</li>
+            </ul>
+          }
+        </li>
+        <li class="p-2">
+          <button
+            class="cursor-pointer flex items-center justify-between w-full"
+            (click)="segundaGestion = !segundaGestion"
+          >
+            <span> Segunda Gestión </span>
+            <div class="divide"></div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5 md:w-6 md:h-6 transition-transform duration-300 ml-1"
+              [class.rotate-180]="segundaGestion"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+          @if (segundaGestion) {
+            <ul class="pl-5 mt-2 space-y-1">
+              <li class="p-2 hover:bg-gray-200 rounded cursor-pointer">Sub gestion 1</li>
+              <li class="p-2 hover:bg-gray-200 rounded cursor-pointer">Sub gestion 2</li>
+            </ul>
+          }
+        </li>
+        <li class="p-2">
+          <button
+            class="cursor-pointer flex items-center justify-between w-full"
+            (click)="terceraGestion = !terceraGestion"
+          >
+            <span> Tercera Gestión </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5 md:w-6 md:h-6 transition-transform duration-300 ml-1"
+              [class.rotate-180]="terceraGestion"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+          @if (terceraGestion) {
+            <ul class="pl-5 mt-2 space-y-1">
+              <li class="p-2 hover:bg-gray-200 rounded cursor-pointer">Sub gestion 1</li>
+              <li class="p-2 hover:bg-gray-200 rounded cursor-pointer">Sub gestion 2</li>
+            </ul>
+          }
+        </li>
+      </ul>
+    </div>
+    <div class="mt-auto">Copyright Battilana 2026</div>
+  </div>
+  <div class="w-[85%]">
+    <div class="navbar">
+      <nav class="">
+        <!--<ul class="ul-opciones">
       <li>Pagos Diarios</li>
       <li>Gestion de documentos</li>
       <li>Reportes</li>
-    </ul>
-  </nav>
-</div>
-<div class="main">
-  <div class="slider-bar">
-    <label>Esta es la zona de slider-bar</label>
-  </div>
-  <div class="contenido">
-    <router-outlet></router-outlet>
+    </ul> -->
+      </nav>
+    </div>
+    <div class="p-5">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

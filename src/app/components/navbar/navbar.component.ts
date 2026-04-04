@@ -9,4 +9,9 @@ import { RouterOutlet } from '@angular/router';
 })
 export class NavbarComponent {
 
+  primeraGestion:boolean = false;
+  segundaGestion:boolean = false;
+  terceraGestion:boolean = false;
+
+  constructor(){}
 }

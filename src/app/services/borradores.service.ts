@@ -1,8 +1,18 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { PedidosDiarios } from '../models/pedidos-diarios.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BorradoresService {
   
+  private apiBorrador:string = "http://localhost:8080/api/v1/borradores"
+
+  constructor(private http:HttpClient){};
+
+  getPedidoDiario():Observable<PedidosDiarios[]>{
+    return this.http.get<PedidosDiarios[]>(`${this.apiBorrador}/pedido-diario`);
+  }
 }

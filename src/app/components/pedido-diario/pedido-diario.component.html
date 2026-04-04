@@ -1,20 +1,51 @@
-<table>
-  <thead>
-    <th>Ruc</th>
-    <th>Nombre</th>
-    <th>Condicion de Pago</th>
-    <th>Total del Pedido</th>
-    <th>Linea de Credito</th>
-    <th>Ultimo Pago</th>
-    <th>Total Vencido</th>
-    <th>Total Deuda</th>
-    <th>Facturas Vencidas</th>
-    <th>Total por Vencer</th>
-    <th>Factura Vencida</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
+<div class="max-h-200 overflow-y-auto">
+  <table class="min-w-full text-sm text-left text-gray-600">
+    <thead class="bg-gray-50 text-gray-700 uppercase text-xs sticky top-0 z-20">
+      <th class="px-6 py-4 sticky left-0 bg-gray-50 z-30">Ruc</th>
+      <th class="px-6 py-4 sticky left-37.5 bg-gray-50 z-3">Nombre</th>
+      <th class="px-6 py-4">Condicion de Pago</th>
+      <th class="px-6 py-4">Total del Pedido</th>
+      <th class="px-6 py-4">Linea de Credito</th>
+      <th class="px-6 py-4">Ultimo Pago</th>
+      <th class="px-6 py-4">Total Vencido</th>
+      <th class="px-6 py-4">Total Deuda</th>
+      <th class="px-6 py-4">Facturas Vencidas</th>
+      <th class="px-6 py-4">Total por Vencer</th>
+      <th class="px-6 py-4">Factura Vencida</th>
+      <!--<th class="px-6 py-4 text-right">Acciones</th> -->
+    </thead>
+    <tbody class="">
+      @for (pd of pedidoDiario; track $index) {
+        <tr class="hover:bg-gray-600 hover:text-white transition">
+          <td
+            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap sticky left-0 bg-white z-10"
+          >
+            {{ pd.cardCode }}
+          </td>
+          <td class="px-6 py-4 text-gray-900 whitespace-nowrap sticky left-[143px] bg-white z-10">
+            {{ pd.cardName }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ pd.pymntGroup }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ pd.docTotalFC }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ pd.creditLine }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            {{ pd.docDate | date: 'yyyy/MM/dd' }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            {{ pd.montoVencido }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap"></td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            {{ pd.facturasVencidas }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            {{ pd.montoPorVencer }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            {{ pd.fechaVencida | date: 'yyyy/MM/dd' }}
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
