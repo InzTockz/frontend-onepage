@@ -1,70 +1,92 @@
-<div class="flex flex-row">
-  <div class="slider-bar p-5 flex flex-col min-h-screen w-[15%]">
-    <div>
-      <h1 class="mb-10 text-2xl md:text-xl font-bold md:font-semibold">OnePage - Battilana</h1>
+<div class="flex h-screen bg-slate-50">
+  <!--OVERLAY SOLO PARA MOVIL-->
+  <!--SIDEBAR-->
+  <div class="p-4 flex flex-col w-64 xl:w-72 2xl:w-80 bg-slate-900 text-slate-300">
+    <!--LOGO CON EL NOMBRE-->
+    <div class="flex justify-center mb-8">
+      <h1 class="text-base xl:text-lg font-semibold text-white tracking-wide">
+        OnePage - Battilana
+      </h1>
     </div>
     <div>
-      <ul class="w-auto pr-[25%]">
-        <li class="p-2">
-          <button class="cursor-pointer flex items-center justify-between w-full">Inicio</button>
-        </li>
-        <li class="p-2">
+      <!--MENU DE LA LISTA UL-->
+      <ul class="space-y-1 text-sm xl:text-base 2xl:text-[15px]">
+        <!--HOME-->
+        <li>
           <button
-            class="cursor-pointer flex items-center justify-between w-full"
+            class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-700 transition"
+          >
+            <svg lucideHome class="w-5 h-5"></svg>
+            <span> Inicio </span>
+          </button>
+        </li>
+        <!--PRIMERA GESTION-->
+        <li>
+          <button
+            class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-700 transition"
             (click)="primeraGestion = !primeraGestion"
           >
+            <svg lucideFileText class="w-5 h-5"></svg>
             <span> Primera Gestión </span>
-            <div class="divide"></div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-5 h-5 md:w-6 md:h-6 transition-transform duration-300 ml-1"
+              class="w-5 h-5 ml-auto transition-transform duration-300"
               [class.rotate-180]="primeraGestion"
             >
               <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
           </button>
           @if (primeraGestion) {
-            <ul class="pl-5 mt-2 space-y-1">
-              <li class="p-2 hover:bg-gray-200 rounded cursor-pointer">Pedidos Diarios</li>
-              <li class="p-2 hover:bg-gray-200 rounded cursor-pointer">Envios Whatsapp</li>
+            <ul class="ml-6 mt-1 space-y-1 text-slate-400">
+              <li class="p-2 rounded hover:bg-slate-700 cursor-pointer flex items-center gap-2">
+                <svg lucideDot class="w-3 h-3"></svg>Pedidos Diarios
+              </li>
+              <li class="p-2 rounded hover:bg-slate-700 cursor-pointer flex items-center gap-2">
+                <svg lucideDot class="w-3 h-3"></svg>Envios Whatsapp
+              </li>
             </ul>
           }
         </li>
-        <li class="p-2">
+        <li>
           <button
-            class="cursor-pointer flex items-center justify-between w-full"
+            class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-700 transition"
             (click)="segundaGestion = !segundaGestion"
           >
+            <svg lucideFileText class="w-5 h-5"></svg>
             <span> Segunda Gestión </span>
-            <div class="divide"></div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-5 h-5 md:w-6 md:h-6 transition-transform duration-300 ml-1"
+              class="w-5 h-5 ml-auto transition-transform duration-300"
               [class.rotate-180]="segundaGestion"
             >
               <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
           </button>
           @if (segundaGestion) {
-            <ul class="pl-5 mt-2 space-y-1">
-              <li class="p-2 hover:bg-gray-200 rounded cursor-pointer">Sub gestion 1</li>
-              <li class="p-2 hover:bg-gray-200 rounded cursor-pointer">Sub gestion 2</li>
+            <ul class="ml-6 mt-1 space-y-1 text-slate-400">
+              <li class="p-2 rounded hover:bg-slate-800 cursor-pointer flex items-center gap-2">
+                <svg lucideDot class="w-3 h-3"></svg>Sub gestion 1
+              </li>
+              <li class="p-2 rounded hover:bg-slate-800 cursor-pointer flex items-center gap-2">
+                <svg lucideDot class="w-3 h-3"></svg>Sub gestion 2
+              </li>
             </ul>
           }
         </li>
-        <li class="p-2">
+        <li>
           <button
-            class="cursor-pointer flex items-center justify-between w-full"
+            class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-700 transition"
             (click)="terceraGestion = !terceraGestion"
           >
+            <svg lucideFileText class="w-5 h-5"></svg>
             <span> Tercera Gestión </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -72,35 +94,55 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-5 h-5 md:w-6 md:h-6 transition-transform duration-300 ml-1"
+              class="w-5 h-5 ml-auto transition-transform duration-300"
               [class.rotate-180]="terceraGestion"
             >
               <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
           </button>
           @if (terceraGestion) {
-            <ul class="pl-5 mt-2 space-y-1">
-              <li class="p-2 hover:bg-gray-200 rounded cursor-pointer">Sub gestion 1</li>
-              <li class="p-2 hover:bg-gray-200 rounded cursor-pointer">Sub gestion 2</li>
+            <ul class="ml-6 mt-1 space-y-1 text-slate-400">
+              <li class="p-2 rounded hover:bg-slate-800 cursor-pointer flex items-center gap-2">
+                <svg lucideDot class="w-3 h-3"></svg>Sub gestion 1
+              </li>
+              <li class="p-2 rounded hover:bg-slate-800 cursor-pointer flex items-center gap-2">
+                <svg lucideDot class="w-3 h-3"></svg>Sub gestion 2
+              </li>
             </ul>
           }
         </li>
       </ul>
     </div>
-    <div class="mt-auto">Copyright Battilana 2026</div>
+    <div class="mt-auto pt-6 text-xs text-slate-500 text-center">© Copyright Battilana 2026</div>
   </div>
-  <div class="w-[85%]">
-    <div class="navbar">
-      <nav class="">
-        <!--<ul class="ul-opciones">
-      <li>Pagos Diarios</li>
-      <li>Gestion de documentos</li>
-      <li>Reportes</li>
-    </ul> -->
-      </nav>
+  <!--CONTENIDO-->
+  <div class="flex-1 flex flex-col min-w-0">
+    <!--NAVBAR-->
+    <div class="h-14 xl:h-16 bg-white border-b flex justify-between items-center px-6">
+      <div
+        class="w-full max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-4 sm:px-6 lg:px-8 flex justify-between items-center"
+      >
+        <h2 class="text-slate-700 font-medium text-sm xl:text-base">Panel contable</h2>
+      </div>
+      <div class="flex items-center gap-3 xl:gap-4">
+        <div
+          class="w-9 h-9 xl:w-10 xl:h-10 bg-slate-200 rounded-full flex items-center justify-center"
+        >
+          <svg lucideUser class="w-5 h-5 text-slate-600"></svg>
+        </div>
+      </div>
     </div>
-    <div class="p-5">
-      <router-outlet></router-outlet>
+    <!--CONTENIDO MAIN-->
+    <div class="flex-1 overflow-auto">
+      <div
+        class="w-full max-w-[1400px] xl:max-w-[1500px] 2xl:max-w-[1700px] mx-auto p-4 sm:p-6 xl:p-8 2xl:p-10"
+      >
+        <div
+          class="bg-white border border-slate-200 rounded-xl shadow-sm p-4 sm:p-5 lg:p-6 2xl:p-8"
+        >
+          <router-outlet></router-outlet>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -8,7 +8,7 @@ import { PedidosDiarios } from '../models/pedidos-diarios.model';
 })
 export class BorradoresService {
   
-  private apiBorrador:string = "http://localhost:8080/api/v1/borradores"
+  private apiBorrador:string = "http://192.168.18.4:8080/api/v1/borradores"
 
   constructor(private http:HttpClient){};
 
