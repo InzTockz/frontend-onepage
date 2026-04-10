@@ -1,0 +1,46 @@
+<div class="flex justify-end">
+  <button
+    class="p-2 border text-[14px] text-white font-semibold cursor-pointer bg-slate-500 rounded-lg"
+  >
+    Enviar
+  </button>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4 max-h-[500px] xl:max-h-[600px]">
+  @for (pd of pedidoDiario; track $index) {
+    <div
+      class="rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition p-4"
+    >
+      <!--HEADER-->
+      <div class="flex justify-between items-center border-b pb-2 mb-3">
+        <h3 class="text-sm font-semibold text-slate-800">{{ pd.cardName }}</h3>
+        <span class="text-xs text-slate-500">{{ fechaHoy }}</span>
+      </div>
+      <!--CONTENIDO-->
+      <div class="grid grid-cols-[1fr_auto] gap-y-2 text-xs xl:text-[13px]">
+        <div class="text-slate-500">Pedido</div>
+        <div class="font-medium text-slate-800">{{ pd.docTotalFC }}</div>
+        <div class="text-slate-500">Limite de credito</div>
+        <div class="font-medium text-slate-800">{{ pd.creditLine }}</div>
+        <div class="text-slate-500">Condiciones de pago</div>
+        <div class="font-medium text-slate-800">{{ pd.pymntGroup }}</div>
+        <div class="text-slate-500">Cuentas x Cobrar</div>
+        <div class="font-medium text-slate-800">{{ pd.montoPorVencer }}</div>
+        <div class="text-red-500">Saldo Vencido</div>
+        <div class="font-medium text-red-500">{{ pd.montoVencido }}</div>
+        <div class="text-slate-500">Utilizacion L/C</div>
+        <div class="font-medium text-slate-800"></div>
+        <div class="text-slate-500">Mora</div>
+        <div class="font-medium text-slate-800"></div>
+        <div class="text-slate-500">Facturas Vencidas</div>
+        <div class="font-medium text-slate-800">{{ pd.facturasVencidas }}</div>
+        <div class="text-slate-500">Fecha Ultimo Pago - 2 ultimos meses</div>
+        <div class="font-medium text-slate-800">
+          {{ (pd.fechaVencida | date: 'dd/MM/yyyy') ?? '-' }}
+        </div>
+      </div>
+      <div class="mt-4 pt-3 border-t text-center">
+        <span class="text-xs text-blue-600 hover:underline">Facturas</span>
+      </div>
+    </div>
+  }
+</div>
