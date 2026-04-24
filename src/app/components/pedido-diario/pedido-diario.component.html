@@ -1,126 +1,111 @@
-<div class="w-full flex justify-end mb-2">
-  <button
-    class="p-2 border text-[14px] text-white font-semibold cursor-pointer bg-slate-500 rounded-lg"
-  >
+<!-- Header de página -->
+<div class="flex items-center justify-between mb-5">
+  <div>
+    <h2 class="text-base font-semibold text-slate-800">Pedidos Diarios</h2>
+    <p class="text-xs text-slate-400 mt-0.5">{{ pedidoDiario.length }} registros</p>
+  </div>
+  <button class="px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors">
     Generar Lote
   </button>
 </div>
-<div class="max-h-[500px] xl:max-h-[600px] border border-gray-200 rounded-xl">
-  <div #tableContainer class="cursor-grab active:cursor-grabbing select-none overflow-hidden">
-    <table
-      class="min-w-full table table-fixed border-collapse text-xs xl:text-[13px] text-left text-gray-600 select-none"
-    >
-      <!--HEADER-->
-      <thead class="bg-gray-50 text-gray-500 uppercase text-[10px] sticky top-0 z-20">
-        <tr>
-          <th
-            class="w-[120px] min-w-[120px] max-w-[120px] px-3 py-2 box-border sticky left-0 bg-slate-100 text-slate-900 z-30"
-          >
+
+<!-- Card de tabla -->
+<div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+
+  <!-- Área scrollable de la tabla -->
+  <div
+    #tableContainer
+    class="cursor-grab active:cursor-grabbing select-none overflow-x-hidden overflow-y-auto max-h-[520px] xl:max-h-[610px]"
+  >
+    <table class="min-w-full table-fixed border-collapse text-xs xl:text-[12.5px] text-left text-slate-600">
+
+      <!-- Header fijo -->
+      <thead class="sticky top-0 z-20">
+        <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase text-[10px] tracking-wider font-semibold">
+          <th class="w-[120px] min-w-[120px] max-w-[120px] px-3 py-3 sticky left-0 bg-slate-100 text-slate-700 z-30">
             Ruc
           </th>
-          <th
-            class="w-[250px] min-w-[250px] truncate px-3 py-2 box-border sticky left-[120px] bg-slate-100 text-slate-900 z-30"
-          >
+          <th class="w-[250px] min-w-[250px] px-3 py-3 sticky left-[120px] bg-slate-100 text-slate-700 z-30">
             Nombre
           </th>
-          <!--CONDICION DE PAGO-->
-          <th class="px-3 xl:px-4 py-2">C. de Pago</th>
-          <!--TOTAL DEL PEDIDO-->
-          <th class="px-3 xl:px-4 py-2 text-right">Total Pedido</th>
-          <!--LINEA DE CREDITO-->
-          <th class="px-3 xl:px-4 py-2 text-right">Linea Credito</th>
-          <th class="px-3 xl:px-4 py-2">Ultimo Pago</th>
-          <!--TOTAL DE DEUDA VENCIDA-->
-          <th class="px-3 xl:px-4 py-2 text-right">Vencido</th>
-          <!--TOTAL DE LA DEUDA-->
-          <th class="px-3 xl:px-4 py-2 text-right">Deuda</th>
-          <!--FACTURAS VENCIDAS-->
-          <th class="px-3 xl:px-4 py-2">Fact. Vencidas</th>
-          <!--FACTURAS POR VENCER-->
-          <th class="px-3 xl:px-4 py-2">Por Vencer</th>
-          <!--FECHA DE FACTUA MAS VENCIDA-->
-          <th class="px-3 xl:px-4 py-2">Mas Vencida</th>
-          <!--<th class="px-6 py-4 text-right">Acciones</th> -->
+          <th class="px-3 xl:px-4 py-3">C. Pago</th>
+          <th class="px-3 xl:px-4 py-3 text-right">Total Pedido</th>
+          <th class="px-3 xl:px-4 py-3 text-right">L. Crédito</th>
+          <th class="px-3 xl:px-4 py-3">Últ. Pago</th>
+          <th class="px-3 xl:px-4 py-3 text-right text-red-500">Vencido</th>
+          <th class="px-3 xl:px-4 py-3 text-right">Deuda</th>
+          <th class="px-3 xl:px-4 py-3 text-right">F. Vencidas</th>
+          <th class="px-3 xl:px-4 py-3 text-right">Por Vencer</th>
+          <th class="px-3 xl:px-4 py-3">Más Vencida</th>
         </tr>
       </thead>
-      <tbody class="">
+
+      <tbody class="divide-y divide-slate-100">
         @for (pd of paginatedData(); track $index) {
-          <tr class="hover:bg-gray-600 hover:text-white even:bg-gray-50/40 transition">
-            <td
-              class="w-[120px] min-w-[120px] max-w-[120px] xl:text-[11.5px] px-3 py-2 box-border font-medium text-slate-900 whitespace-nowrap sticky left-0 bg-slate-100 z-20"
-            >
+          <tr class="even:bg-slate-50/50 hover:bg-indigo-50/60 transition-colors">
+            <td class="w-[120px] min-w-[120px] max-w-[120px] px-3 py-2.5 font-medium text-slate-800 whitespace-nowrap sticky left-0 bg-white z-10">
               {{ pd.cardCode }}
             </td>
-            <td
-              class="w-[250px] min-w-[250px] xl:text-[11.5px] truncate px-3 py-2 box-border text-slate-900 whitespace-nowrap sticky left-[120px] bg-slate-100 z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)]"
-            >
+            <td class="w-[250px] min-w-[250px] px-3 py-2.5 text-slate-800 whitespace-nowrap truncate sticky left-[120px] bg-white z-10 shadow-[2px_0_6px_-2px_rgba(0,0,0,0.06)]">
               {{ pd.cardName }}
             </td>
-            <td class="px-3 xl:px-4 py-2 text-left xl:text-[11.5px] tabular-nums whitespace-nowrap">
+            <td class="px-3 xl:px-4 py-2.5 whitespace-nowrap tabular-nums">
               {{ pd.pymntGroup }}
             </td>
-            <td
-              class="px-3 xl:px-4 py-2 text-right xl:text-[11.5px] tabular-nums whitespace-nowrap"
-            >
+            <td class="px-3 xl:px-4 py-2.5 text-right font-medium whitespace-nowrap tabular-nums">
               {{ pd.docTotalFC | number: '1.2-2' }}
             </td>
-            <td
-              class="px-3 xl:px-4 py-2 text-right xl:text-[11.5px] tabular-nums whitespace-nowrap"
-            >
+            <td class="px-3 xl:px-4 py-2.5 text-right whitespace-nowrap tabular-nums">
               {{ pd.creditLine }}
             </td>
-            <td
-              class="px-3 xl:px-4 py-2 text-right xl:text-[11.5px] tabular-nums whitespace-nowrap"
-            >
-              {{ (pd.docDate | date: 'dd/MM/yyyy') ?? '-' }}
+            <td class="px-3 xl:px-4 py-2.5 whitespace-nowrap tabular-nums">
+              {{ (pd.docDate | date: 'dd/MM/yyyy') ?? '—' }}
             </td>
-            <td
-              class="px-3 xl:px-4 py-2 text-right xl:text-[11.5px] tabular-nums whitespace-nowrap"
-            >
-              {{ (pd.montoVencido | number: '1.2-2') ?? '-' }}
+            <td class="px-3 xl:px-4 py-2.5 text-right whitespace-nowrap tabular-nums font-medium text-red-600">
+              {{ (pd.montoVencido | number: '1.2-2') ?? '—' }}
             </td>
-            <td
-              class="px-3 xl:px-4 py-2 text-right xl:text-[11.5px] tabular-nums whitespace-nowrap"
-            >
+            <td class="px-3 xl:px-4 py-2.5 text-right whitespace-nowrap tabular-nums">
               {{ (pd.montoVencido ?? 0) + (pd.montoPorVencer ?? 0) | number: '1.2-2' }}
             </td>
-            <td
-              class="px-3 xl:px-4 py-2 text-right xl:text-[11.5px] tabular-nums whitespace-nowrap"
-            >
-              {{ pd.facturasVencidas ?? '-' }}
+            <td class="px-3 xl:px-4 py-2.5 text-right whitespace-nowrap tabular-nums">
+              {{ pd.facturasVencidas ?? '—' }}
             </td>
-            <td
-              class="px-3 xl:px-4 py-2 text-right xl:text-[11.5px] tabular-nums whitespace-nowrap"
-            >
-              {{ (pd.montoPorVencer | number: '1.2-2') ?? '-' }}
+            <td class="px-3 xl:px-4 py-2.5 text-right whitespace-nowrap tabular-nums">
+              {{ (pd.montoPorVencer | number: '1.2-2') ?? '—' }}
             </td>
-            <td
-              class="px-3 xl:px-4 py-2 text-right xl:text-[11.5px] tabular-nums whitespace-nowrap"
-            >
-              {{ (pd.fechaVencida | date: 'dd/MM/yyyy') ?? '-' }}
+            <td class="px-3 xl:px-4 py-2.5 whitespace-nowrap tabular-nums">
+              {{ (pd.fechaVencida | date: 'dd/MM/yyyy') ?? '—' }}
             </td>
           </tr>
         }
       </tbody>
+
     </table>
   </div>
-  <div class="flex items-center justify-between mt-4 px-2">
-    <span class="text-sm text-gray-500">Pagina {{ page }} de {{ totalPages() }}</span>
+
+  <!-- Paginación -->
+  <div class="border-t border-slate-200 bg-slate-50/50 px-4 py-3 flex items-center justify-between">
+    <span class="text-xs text-slate-500">
+      Página <span class="font-medium text-slate-700">{{ page }}</span>
+      de <span class="font-medium text-slate-700">{{ totalPages() }}</span>
+      · {{ pedidoDiario.length }} registros
+    </span>
     <div class="flex gap-2">
       <button
         (click)="prevPage()"
-        class="px-3 py-1 text-sm border rounded-md bg-white hover:bg-gray-100 disabled:opacity-50"
         [disabled]="page === 1"
+        class="px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         Anterior
       </button>
       <button
         (click)="nextPage()"
-        class="px-3 py-1 text-sm border rounded-md bg-white hover:bg-gray-100 disabled:opacity-50"
         [disabled]="page === totalPages()"
+        class="px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         Siguiente
       </button>
     </div>
   </div>
+
 </div>

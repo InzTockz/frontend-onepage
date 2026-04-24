@@ -1,1 +1,35 @@
-<p>home works!</p>
+<div class="grid grid-cols-4 gap-4">
+  <!-- Cards 01 - 04 -->
+  <div class="flex justify-center border border-red-500 p-4 rounded-lg">01</div>
+  <div class="flex justify-center border border-red-500 p-4 rounded-lg">02</div>
+  <div class="flex justify-center border border-red-500 p-4 rounded-lg">03</div>
+  <div class="flex justify-center border border-red-500 p-4 rounded-lg">04</div>
+
+  <!-- Card 05 -->
+  <div class="col-span-3 flex justify-center border border-red-500 p-4 rounded-lg">05</div>
+
+  <!-- Card con Chart (radialBar + texto) -->
+  <div class="flex items-center gap-3 border border-red-500 p-4 rounded-lg">
+    <!-- Gráfico -->
+    <div class="flex-shrink-0">
+      <apx-chart
+        [series]="chartOptions.series!"
+        [chart]="chartOptions.chart!"
+        [plotOptions]="chartOptions.plotOptions!"
+        [fill]="chartOptions.fill!"
+        [stroke]="chartOptions.stroke!"
+        [colors]="chartOptions.colors!"
+      />
+    </div>
+
+    <!-- Texto derecho -->
+    <div class="flex flex-col">
+      <span class="text-xs font-bold tracking-widest text-pink-600"> VENCIDO USD </span>
+      <span class="text-2xl font-bold text-gray-800"> 000 K </span>
+    </div>
+  </div>
+
+  <!-- Cards 07 y 08 -->
+  <div class="col-span-full flex justify-center border border-red-500 p-4 rounded-lg">07</div>
+  <div class="col-span-full flex justify-center border border-red-500 p-4 rounded-lg">08</div>
+</div>
