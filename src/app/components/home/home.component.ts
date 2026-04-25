@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   ChartComponent,
   ApexNonAxisChartSeries,
@@ -23,10 +23,15 @@ export type ChartOptions = {
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+
+  meses: string[] = ["Todos", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"]
+
+  ngOnInit(): void {
+  }
 
   public chartOptions: Partial<ChartOptions> = {
-    series: [2],  // 👈 el porcentaje
+    series: [55],  // 👈 el porcentaje
     chart: {
       type: 'radialBar',
       width: 120,
