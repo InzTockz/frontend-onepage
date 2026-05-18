@@ -41,7 +41,7 @@
           class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
         >
           <svg lucideFileText class="w-4 h-4 shrink-0"></svg>
-          <span class="flex-1 text-left">Primera Gestión</span>
+          <span class="flex-1 text-left">Gestion pedidos</span>
           <svg
             lucideChevronDown
             class="w-4 h-4 transition-transform duration-200"
@@ -69,7 +69,7 @@
       </div>
 
       <!-- Segunda Gestión -->
-      <div>
+      <div hidden>
         <button
           (click)="segundaGestion = !segundaGestion"
           class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
@@ -99,7 +99,7 @@
       </div>
 
       <!-- Tercera Gestión -->
-      <div>
+      <div hidden>
         <button
           (click)="terceraGestion = !terceraGestion"
           class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
@@ -155,9 +155,9 @@
       class="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0 shadow-sm"
     >
       <div class="flex items-center gap-2 text-sm">
-        <span class="text-slate-400 hidden sm:block">OnePage</span>
-        <span class="text-slate-300 hidden sm:block">/</span>
-        <span class="text-slate-700 font-semibold">Panel Contable</span>
+        <span hidden class="text-slate-400 hidden sm:block">OnePage</span>
+        <span hidden class="text-slate-300 hidden sm:block">/</span>
+        <span hidden class="text-slate-700 font-semibold">Panel Contable</span>
       </div>
       <div class="flex items-center gap-1">
         <button
