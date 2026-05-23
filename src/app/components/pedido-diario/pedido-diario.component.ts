@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { PedidosDiarios } from '../../models/pedidos-diarios.model';
 import { BorradoresService } from '../../services/borradores.service';
 import { CommonModule } from '@angular/common';
+import { LotePedidoService } from '../../services/lote-pedido.service';
 
 @Component({
   selector: 'app-pedido-diario',
@@ -15,11 +16,12 @@ export class PedidoDiarioComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('tableContainer') tableContainer!: ElementRef;
   /* */
 
+  enCarga: boolean = false;
   pedidoDiario: PedidosDiarios[] = [];
   page = 1;
   pageSize = 10;
 
-  constructor(private borradoresService: BorradoresService) { }
+  constructor(private borradoresService: BorradoresService, private lotePedidoService: LotePedidoService) { }
 
   ngOnInit(): void {
     this.showPedidosDiarios();
@@ -57,6 +59,19 @@ export class PedidoDiarioComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+  }
+
+  postLotePedido() {
+    this.enCarga = true;
+    setTimeout(() => {
+      this.lotePedidoService.postLotePedidos().subscribe(
+        () => {
+          console.log("Pedidos registrado con exito");
+          this.enCarga = false;
+        }
+      )
+    }, 3000);
+
   }
 
   showPedidosDiarios() {

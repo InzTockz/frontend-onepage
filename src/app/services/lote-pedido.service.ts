@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LotePedido } from '../models/lote-pedido.model';
+import { LotePedido } from '../models/borrador/lote-pedido.model';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class LotePedidoService {
 
-  private apiLotePedido: string = "http://192.168.1.139:8080/api/v1/lote-pedidos";
+  private apiLotePedido: string = "http://192.168.1.139:8080/api/v1/lote-pedido";
 
   constructor(private http: HttpClient) { }
 

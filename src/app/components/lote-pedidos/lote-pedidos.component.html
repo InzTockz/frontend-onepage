@@ -2,9 +2,13 @@
 <div class="flex items-center justify-between mb-5">
   <div>
     <h2 class="text-base font-semibold text-slate-800">Envíos WhatsApp</h2>
-    <p class="text-xs text-slate-400 mt-0.5">{{ pedidoDiario.length }} pedidos para enviar · {{ fechaHoy }}</p>
+    <p class="text-xs text-slate-400 mt-0.5">
+      {{ lotePedidos.length }} pedidos para enviar · {{ fechaHoy }}
+    </p>
   </div>
-  <button class="px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors">
+  <button
+    class="px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors"
+  >
     Enviar
   </button>
 </div>
@@ -12,22 +16,29 @@
 <!-- Grid de tarjetas -->
 <div class="overflow-y-auto max-h-[580px] xl:max-h-[660px] pr-1">
   <div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
-    @for (pd of pedidoDiario; track $index) {
-      <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col">
-
+    @for (pd of lotePedidos; track $index) {
+      <div
+        class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col"
+      >
         <!-- Card header -->
         <div class="px-4 pt-4 pb-3 border-b border-slate-100">
           <div class="flex items-start justify-between gap-2">
             <div class="min-w-0">
-              <h3 class="text-sm font-semibold text-slate-800 leading-snug truncate">{{ pd.cardName }}</h3>
-              <p class="text-xs text-slate-400 mt-0.5">RUC: {{ pd.cardCode }}</p>
+              <h3 class="text-sm font-semibold text-slate-800 leading-snug truncate">
+                {{ pd.nombre }}
+              </h3>
+              <p class="text-xs text-slate-400 mt-0.5">RUC: {{ pd.codCliente }}</p>
             </div>
             @if ((pd.montoVencido ?? 0) > 0) {
-              <span class="shrink-0 px-2 py-0.5 text-[10px] font-bold bg-red-100 text-red-600 rounded-full uppercase tracking-wide">
+              <span
+                class="shrink-0 px-2 py-0.5 text-[10px] font-bold bg-red-100 text-red-600 rounded-full uppercase tracking-wide"
+              >
                 Vencido
               </span>
             } @else {
-              <span class="shrink-0 px-2 py-0.5 text-[10px] font-bold bg-green-100 text-green-600 rounded-full uppercase tracking-wide">
+              <span
+                class="shrink-0 px-2 py-0.5 text-[10px] font-bold bg-green-100 text-green-600 rounded-full uppercase tracking-wide"
+              >
                 Al día
               </span>
             }
@@ -37,20 +48,26 @@
         <!-- Card body -->
         <div class="px-4 py-3 grid grid-cols-2 gap-y-2.5 text-xs flex-1">
           <span class="text-slate-400">Pedido</span>
-          <span class="text-right font-semibold text-slate-800 tabular-nums">{{ pd.docTotalFC | number: '1.2-2' }}</span>
+          <span class="text-right font-semibold text-slate-800 tabular-nums">{{
+            pd.montoTotal | number: '1.2-2'
+          }}</span>
 
           <span class="text-slate-400">Límite de crédito</span>
-          <span class="text-right text-slate-600 tabular-nums">{{ pd.creditLine }}</span>
+          <span class="text-right text-slate-600 tabular-nums">{{ pd.lineaCredito }}</span>
 
           <span class="text-slate-400">Cond. de pago</span>
-          <span class="text-right text-slate-600">{{ pd.pymntGroup }}</span>
+          <span class="text-right text-slate-600">{{ pd.condicionPago }}</span>
 
           <span class="text-slate-400">Ctas x Cobrar</span>
-          <span class="text-right text-slate-600 tabular-nums">{{ pd.montoPorVencer | number: '1.2-2' }}</span>
+          <span class="text-right text-slate-600 tabular-nums">{{
+            pd.montoPorCobrar | number: '1.2-2'
+          }}</span>
 
           @if ((pd.montoVencido ?? 0) > 0) {
             <span class="text-red-400 font-medium">Saldo vencido</span>
-            <span class="text-right font-semibold text-red-600 tabular-nums">{{ pd.montoVencido | number: '1.2-2' }}</span>
+            <span class="text-right font-semibold text-red-600 tabular-nums">{{
+              pd.montoVencido | number: '1.2-2'
+            }}</span>
           } @else {
             <span class="text-slate-400">Saldo vencido</span>
             <span class="text-right text-slate-400">—</span>
@@ -60,16 +77,19 @@
           <span class="text-right text-slate-600">{{ pd.facturasVencidas ?? '—' }}</span>
 
           <span class="text-slate-400">Último pago</span>
-          <span class="text-right text-slate-600 tabular-nums">{{ (pd.fechaVencida | date: 'dd/MM/yyyy') ?? '—' }}</span>
+          <span class="text-right text-slate-600 tabular-nums">{{
+            (pd.montoVencido | date: 'dd/MM/yyyy') ?? '—'
+          }}</span>
         </div>
 
         <!-- Card footer -->
         <div class="px-4 pb-3 pt-2 border-t border-slate-100">
-          <button class="w-full text-xs text-center text-indigo-600 hover:text-indigo-800 font-medium hover:underline transition-colors">
+          <button
+            class="w-full text-xs text-center text-indigo-600 hover:text-indigo-800 font-medium hover:underline transition-colors"
+          >
             Ver Facturas
           </button>
         </div>
-
       </div>
     }
   </div>

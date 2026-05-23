@@ -400,6 +400,11 @@ export class HomeComponent implements OnInit {
     return totalHistorico / 1000000;
   }
 
+  // get contadorClienteDeudor(): number{
+  //   this.
+  //   return 0
+  // }
+
   /** ========================================================================================== */
 
   /**DETALLE DE REPORTES POR COBRAR POR USUARIO Y/O VENDEDOR */
