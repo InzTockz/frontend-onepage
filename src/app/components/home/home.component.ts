@@ -152,17 +152,17 @@ export class HomeComponent implements OnInit {
   }
 
   changeMesCartera() {
-    if (this.mesHistoricoSeleccionado == 0) {
+    if (this.mesHistoricoSeleccionado == 0 || this.mesHistoricoSeleccionado == this.mesActual) {
       this.cargarDataCompleta();
     } else if (this.mesHistoricoSeleccionado < this.mesActual) {
       this.getResumenCarteraPorMes(this.mesHistoricoSeleccionado);
-    } else if (this.mesHistoricoSeleccionado == this.mesActual) {
-      this.facturaClienteService.getResumenCartera().subscribe(sap => {
-        this.resumenCartera = [this.convertirSapResumen(sap[0])];
-        this.graficaDeBarrasApiladas()
-        this.graficaDeLineas()
-        this.graficaWorldPopulation()
-      });
+      // } else if (this.mesHistoricoSeleccionado == this.mesActual) {
+      //   this.facturaClienteService.getResumenCartera().subscribe(sap => {
+      //     this.resumenCartera = [this.convertirSapResumen(sap[0])];
+      //     this.graficaDeBarrasApiladas()
+      //     this.graficaDeLineas()
+      //     this.graficaWorldPopulation()
+      //   });
     } else {
       this.resumenCartera = [];
       this.graficaDeBarrasApiladas()
@@ -398,6 +398,14 @@ export class HomeComponent implements OnInit {
         rc.vencido180aMas + rc.noVencido
     }, 0)
     return totalHistorico / 1000000;
+  }
+
+  get mesesDisponibles() {
+    return this.meses.filter(m => m.id <= this.mesActual || m.id == 0)
+  }
+
+  get mesesTabla() {
+    return this.meses.filter(m => m.id >= 1 && m.id <= this.mesActual);
   }
 
   // get contadorClienteDeudor(): number{
