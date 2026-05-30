@@ -80,6 +80,11 @@ export class PedidoDiarioComponent implements OnInit, AfterViewInit, OnDestroy {
     )
   }
 
+  get lineaCreditoUtilizada() {
+
+    return 0
+  }
+
   paginatedData() {
     const start = (this.page - 1) * this.pageSize;
     const end = start + this.pageSize;

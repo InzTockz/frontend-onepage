@@ -20,4 +20,8 @@ export class LotePedidoService {
   postLotePedidos(): Observable<void> {
     return this.http.post<void>(`${this.apiLotePedido}/registrar`, null);
   }
+
+  getGenerarEnvio() {
+    return this.http.put<void>(`${this.apiLotePedido}/generar-envio`, null);
+  }
 }

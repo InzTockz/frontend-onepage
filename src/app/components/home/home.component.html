@@ -42,6 +42,7 @@
                   }
                 </select>
                 <select
+                  hidden
                   class="bg-white border border-gray-400 text-gray-900 text-sm rounded-lg px-3 py-2 cursor-pointer outline-none hover:border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all w-48"
                 >
                   <option>Seleccionar Consultor</option>
@@ -56,7 +57,7 @@
                 <svg lucideUsersRound [size]="48" class="text-pink-500"></svg>
                 <span class="text-xs text-gray-500 uppercase tracking-wide">Clientes</span>
               </div>
-              <span class="text-4xl font-bold text-gray-800">{{ clientes.length }}</span>
+              <span class="text-4xl font-bold text-gray-800">{{ clientesDeudores.length }}</span>
             </div>
           </div>
           <!-- Card: Cartera USD -->
@@ -76,96 +77,139 @@
           <div
             class="col-span-4 bg-white border border-gray-200 rounded-xl p-4 shadow-sm overflow-x-auto"
           >
-            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-3"
-              >Histórico mensual</span
-            >
-            <table class="w-full text-xs text-gray-700">
+            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-3">
+              Histórico mensual
+            </span>
+            <table class="w-full text-[10px] text-gray-700 border-collapse">
               <thead>
-                <tr class="bg-blue-950 text-white text-xs uppercase tracking-wider">
-                  <th class="px-4 py-3 font-medium text-left">USD/1000</th>
-                  <th class="px-4 py-3 font-medium text-right">Dic xx</th>
-                  <th class="px-4 py-3 font-medium text-right">Ene</th>
-                  <th class="px-4 py-3 font-medium text-right">Feb</th>
-                  <th class="px-4 py-3 font-medium text-right">Mar</th>
-                  <th class="px-4 py-3 font-medium text-right">Abr</th>
-                  <th class="px-4 py-3 font-medium text-right">May</th>
-                  <th class="px-4 py-3 font-medium text-right">Jun</th>
-                  <th class="px-4 py-3 font-medium text-right">Jul</th>
-                  <th class="px-4 py-3 font-medium text-right">Ago</th>
-                  <th class="px-4 py-3 font-medium text-right">Set</th>
-                  <th class="px-4 py-3 font-medium text-right">Oct</th>
-                  <th class="px-4 py-3 font-medium text-right">Nov</th>
-                  <th class="px-4 py-3 font-medium text-right">Dic</th>
+                <tr class="bg-blue-950 text-white uppercase tracking-wider">
+                  <th
+                    class="px-2 py-1 font-medium text-left rounded-tl-lg sticky left-0 bg-blue-950 z-10 whitespace-nowrap"
+                  >
+                    USD/1000
+                  </th>
+                  <!-- <th class="px-2 py-1 font-medium text-right whitespace-nowrap">Dic xx</th> -->
+                  <th class="px-2 py-1 font-medium text-right">Ene</th>
+                  <th class="px-2 py-1 font-medium text-right">Feb</th>
+                  <th class="px-2 py-1 font-medium text-right">Mar</th>
+                  <th class="px-2 py-1 font-medium text-right">Abr</th>
+                  <th class="px-2 py-1 font-medium text-right">May</th>
+                  <th class="px-2 py-1 font-medium text-right">Jun</th>
+                  <th class="px-2 py-1 font-medium text-right">Jul</th>
+                  <th class="px-2 py-1 font-medium text-right">Ago</th>
+                  <th class="px-2 py-1 font-medium text-right">Set</th>
+                  <th class="px-2 py-1 font-medium text-right">Oct</th>
+                  <th class="px-2 py-1 font-medium text-right">Nov</th>
+                  <th class="px-2 py-1 font-medium text-right rounded-tr-lg">Dic</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100 text-center">
-                @if (resumenCartera == null) {
+                @if (resumenCartera == null || resumenCartera.length === 0) {
                   <tr>
-                    <td colspan="14" class="px-4 py-6 text-center text-gray-400 text-xs">
-                      Sin datos
-                    </td>
+                    <td colspan="14" class="px-2 py-3 text-center text-gray-400">Sin datos</td>
                   </tr>
                 } @else {
-                  <tr>
-                    <td>No vencido</td>
-                    <td></td>
+                  <tr class="hover:bg-blue-50/50">
+                    <td
+                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-white z-10 whitespace-nowrap"
+                    >
+                      No vencido
+                    </td>
+                    <!-- <td></td> -->
                     @for (rc of resumenCartera; track $index) {
-                      <td>{{ rc.noVencido / 1000 | number: '1.0-0' }}</td>
+                      <td class="px-2 py-0.5 font-mono text-green-700">
+                        {{ rc.noVencido / 1000 | number: '1.0-0' }}
+                      </td>
                     }
                   </tr>
-                  <tr>
-                    <td>Entre 0 y 30</td>
-                    <td></td>
+                  <tr class="hover:bg-blue-50/50 bg-gray-50/30">
+                    <td
+                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-gray-50/30 z-10 whitespace-nowrap"
+                    >
+                      0 - 30
+                    </td>
+                    <!-- <td></td> -->
                     @for (rc of resumenCartera; track $index) {
-                      <td>{{ rc.vencido0a30 / 1000 | number: '1.0-0' }}</td>
+                      <td class="px-2 py-0.5 font-mono">
+                        {{ rc.vencido0a30 / 1000 | number: '1.0-0' }}
+                      </td>
                     }
                   </tr>
-
-                  <tr>
-                    <td>Entre 31 y 45</td>
-                    <td></td>
+                  <tr class="hover:bg-blue-50/50">
+                    <td
+                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-white z-10 whitespace-nowrap"
+                    >
+                      31 - 45
+                    </td>
+                    <!-- <td></td> -->
                     @for (rc of resumenCartera; track $index) {
-                      <td>{{ rc.vencido31a45 / 1000 | number: '1.0-0' }}</td>
+                      <td class="px-2 py-0.5 font-mono">
+                        {{ rc.vencido31a45 / 1000 | number: '1.0-0' }}
+                      </td>
                     }
                   </tr>
-
-                  <tr>
-                    <td>Entre 46 y 60</td>
-                    <td></td>
+                  <tr class="hover:bg-blue-50/50 bg-gray-50/30">
+                    <td
+                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-gray-50/30 z-10 whitespace-nowrap"
+                    >
+                      46 - 60
+                    </td>
+                    <!-- <td></td> -->
                     @for (rc of resumenCartera; track $index) {
-                      <td>{{ rc.vencido46a60 / 1000 | number: '1.0-0' }}</td>
+                      <td class="px-2 py-0.5 font-mono">
+                        {{ rc.vencido46a60 / 1000 | number: '1.0-0' }}
+                      </td>
                     }
                   </tr>
-
-                  <tr>
-                    <td>Entre 61 y 90</td>
-                    <td></td>
+                  <tr class="hover:bg-blue-50/50">
+                    <td
+                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-white z-10 whitespace-nowrap"
+                    >
+                      61 - 90
+                    </td>
+                    <!-- <td></td> -->
                     @for (rc of resumenCartera; track $index) {
-                      <td>{{ rc.vencido61a90 / 1000 | number: '1.0-0' }}</td>
+                      <td class="px-2 py-0.5 font-mono text-orange-600">
+                        {{ rc.vencido61a90 / 1000 | number: '1.0-0' }}
+                      </td>
                     }
                   </tr>
-
-                  <tr>
-                    <td>Entre 91 y 180</td>
-                    <td></td>
+                  <tr class="hover:bg-blue-50/50 bg-gray-50/30">
+                    <td
+                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-gray-50/30 z-10 whitespace-nowrap"
+                    >
+                      91 - 180
+                    </td>
+                    <!-- <td></td> -->
                     @for (rc of resumenCartera; track $index) {
-                      <td>{{ rc.vencido91a180 / 1000 | number: '1.0-0' }}</td>
+                      <td class="px-2 py-0.5 font-mono text-red-500">
+                        {{ rc.vencido91a180 / 1000 | number: '1.0-0' }}
+                      </td>
                     }
                   </tr>
-
-                  <tr>
-                    <td>Entre 180 a más</td>
-                    <td></td>
+                  <tr class="hover:bg-blue-50/50">
+                    <td
+                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-white z-10 whitespace-nowrap"
+                    >
+                      +180
+                    </td>
+                    <!-- <td></td> -->
                     @for (rc of resumenCartera; track $index) {
-                      <td>{{ rc.vencido180aMas / 1000 | number: '1.0-0' }}</td>
+                      <td class="px-2 py-0.5 font-mono text-red-700 font-semibold">
+                        {{ rc.vencido180aMas / 1000 | number: '1.0-0' }}
+                      </td>
                     }
                   </tr>
                 }
-                <tr>
-                  <td>Total cartera</td>
-                  <td></td>
+                <tr class="bg-blue-900 text-white font-semibold">
+                  <td
+                    class="px-2 py-1 text-left sticky left-0 bg-blue-900 z-10 rounded-bl-lg whitespace-nowrap"
+                  >
+                    Total
+                  </td>
+                  <!-- <td></td> -->
                   @for (rc of resumenCartera; track $index) {
-                    <td>
+                    <td class="px-2 py-1 font-mono">
                       {{
                         (rc.noVencido +
                           rc.vencido0a30 +
@@ -179,11 +223,15 @@
                     </td>
                   }
                 </tr>
-                <tr>
-                  <td>Morosidad</td>
-                  <td></td>
+                <tr class="bg-pink-600 text-white font-semibold">
+                  <td
+                    class="px-2 py-1 text-left sticky left-0 bg-pink-600 z-10 rounded-bl-lg whitespace-nowrap"
+                  >
+                    Morosidad
+                  </td>
+                  <!-- <td></td> -->
                   @for (rc of resumenCartera; track $index) {
-                    <td>
+                    <td class="px-2 py-1 font-mono">
                       {{
                         ((rc.noVencido +
                           rc.vencido0a30 +
@@ -345,8 +393,9 @@
                   class="bg-white border border-gray-400 text-gray-900 text-sm rounded-lg px-3 py-2 cursor-pointer outline-none hover:border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all w-72 truncate"
                 >
                   <option value="-1">Seleccionar Clientes</option>
-                  @for (c of clientes; track $index) {
-                    <option [value]="c.cardCode">{{ c.cardName }}</option>
+                  <!-- @for (c of clientes; track $index) { -->
+                  @for (c of clientesDeudores; track $index) {
+                    <option [value]="c.ruc">{{ c.nombre }}</option>
                   }
                 </select>
               </div>
@@ -471,35 +520,85 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100">
-                @for (cxc of facturasPorCobrar; track $index) {
-                  <tr class="hover:bg-gray-50 transition-colors even:bg-gray-50/50">
-                    <td class="px-4 py-2.5 font-medium text-gray-800">{{ cxc.nombre }}</td>
-                    <td class="px-4 py-2.5 text-center">
-                      <span
-                        class="px-2 py-0.5 rounded-full text-xs font-medium"
-                        [class]="
-                          calDiasVencimiento(cxc.vencimiento) > 0
-                            ? 'bg-red-100 text-red-700'
-                            : 'bg-green-100 text-green-700'
-                        "
-                      >
-                        {{ calDiasVencimiento(cxc.vencimiento) }}
-                      </span>
+                @for (grupo of facturasPorCobrarAgrupadas; track $index) {
+                  <!-- Fila resumen del cliente (clickeable) -->
+                  <tr
+                    class="bg-blue-50 hover:bg-blue-100 transition-colors cursor-pointer font-semibold text-blue-900"
+                    (click)="toggleCliente(grupo.nombre)"
+                  >
+                    <td class="px-4 py-2.5 flex items-center gap-2">
+                      @if (clientesExpandidos.has(grupo.nombre)) {
+                        <svg
+                          class="w-4 h-4 text-blue-500 transition-transform"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path d="M6 9l6 6 6-6" />
+                        </svg>
+                      } @else {
+                        <svg
+                          class="w-4 h-4 text-blue-500 transition-transform"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path d="M9 6l6 6-6 6" />
+                        </svg>
+                      }
+                      {{ grupo.nombre }}
                     </td>
-                    <td class="px-4 py-2.5">{{ cxc.comprobante }}</td>
-                    <td class="px-4 py-2.5 text-center">{{ cxc.emision | date: 'dd/MM/yyyy' }}</td>
-                    <td class="px-4 py-2.5 text-center">
-                      {{ cxc.vencimiento | date: 'dd/MM/yyyy' }}
-                    </td>
-                    <td class="px-4 py-2.5 text-center">{{ 0 }}</td>
-                    <td class="px-4 py-2.5">{{ 'banco' }}</td>
+                    <td class="px-4 py-2.5 text-center">—</td>
+                    <td class="px-4 py-2.5">—</td>
+                    <td class="px-4 py-2.5 text-center">—</td>
+                    <td class="px-4 py-2.5 text-center">—</td>
+                    <td class="px-4 py-2.5 text-center">—</td>
+                    <td class="px-4 py-2.5">—</td>
                     <td class="px-4 py-2.5 text-right font-mono">
-                      {{ cxc.importe | number: '1.2-2' }}
+                      {{ grupo.totalImporte | number: '1.2-2' }}
                     </td>
                     <td class="px-4 py-2.5 text-right font-mono">
-                      {{ cxc.saldo | number: '1.2-2' }}
+                      {{ grupo.totalSaldo | number: '1.2-2' }}
                     </td>
                   </tr>
+
+                  <!-- Filas detalle (solo si el cliente está expandido) -->
+                  @if (clientesExpandidos.has(grupo.nombre)) {
+                    @for (cxc of grupo.facturas; track $index) {
+                      <tr class="hover:bg-gray-50 transition-colors even:bg-gray-50/50 text-xs">
+                        <td class="px-4 py-2 pl-10 text-gray-500">{{ cxc.nombre }}</td>
+                        <td class="px-4 py-2 text-center">
+                          <span
+                            class="px-2 py-0.5 rounded-full text-xs font-medium"
+                            [class]="
+                              calDiasVencimiento(cxc.vencimiento) > 0
+                                ? 'bg-red-100 text-red-700'
+                                : 'bg-green-100 text-green-700'
+                            "
+                          >
+                            {{ calDiasVencimiento(cxc.vencimiento) }}
+                          </span>
+                        </td>
+                        <td class="px-4 py-2">{{ cxc.comprobante }}</td>
+                        <td class="px-4 py-2 text-center">
+                          {{ cxc.emision | date: 'dd/MM/yyyy' }}
+                        </td>
+                        <td class="px-4 py-2 text-center">
+                          {{ cxc.vencimiento | date: 'dd/MM/yyyy' }}
+                        </td>
+                        <td class="px-4 py-2 text-center">{{ 0 }}</td>
+                        <td class="px-4 py-2">{{ 'banco' }}</td>
+                        <td class="px-4 py-2 text-right font-mono">
+                          {{ cxc.importe | number: '1.2-2' }}
+                        </td>
+                        <td class="px-4 py-2 text-right font-mono">
+                          {{ cxc.saldo | number: '1.2-2' }}
+                        </td>
+                      </tr>
+                    }
+                  }
                 }
               </tbody>
               <tfoot>

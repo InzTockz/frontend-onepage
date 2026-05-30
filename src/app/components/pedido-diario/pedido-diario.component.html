@@ -7,13 +7,13 @@
   <button
     (click)="postLotePedido()"
     [disabled]="enCarga"
-    class="px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors"
+    class="px-4 py-2 flex flex-row items-center bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors"
   >
     @if (enCarga) {
+      <span class="mr-2">Generando </span>
       <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-        Generando...
       </svg>
     } @else {
       Generar Lote
@@ -52,6 +52,8 @@
           <th class="px-3 xl:px-4 py-3">Últ. Pago</th>
           <th class="px-3 xl:px-4 py-3 text-right text-red-500">Vencido</th>
           <th class="px-3 xl:px-4 py-3 text-right">Deuda</th>
+          <th class="px-3 xl:px-4 py-3 text-right">Utilizacion de LC</th>
+          <th class="px-3 xl:px-4 py-3 text-right">Mora</th>
           <th class="px-3 xl:px-4 py-3 text-right">F. Vencidas</th>
           <th class="px-3 xl:px-4 py-3 text-right">Por Vencer</th>
           <th class="px-3 xl:px-4 py-3">Más Vencida</th>
@@ -89,10 +91,23 @@
               {{ (pd.montoVencido | number: '1.2-2') ?? '—' }}
             </td>
             <td class="px-3 xl:px-4 py-2.5 text-right whitespace-nowrap tabular-nums">
-              {{ (pd.montoVencido ?? 0) + (pd.montoPorVencer ?? 0) | number: '1.2-2' }}
+              {{ pd.montoVencido + pd.montoPorVencer | number: '1.2-2' }}
+            </td>
+
+            <td class="px-3 xl:px-4 py-2.5 text-right whitespace-nowrap tabular-nums">
+              {{
+                (pd.creditLine > 0
+                  ? ((pd.montoVencido + pd.montoPorVencer) / pd.creditLine) * 100
+                  : 0
+                ) | number: '1.0-0'
+              }}%
             </td>
             <td class="px-3 xl:px-4 py-2.5 text-right whitespace-nowrap tabular-nums">
-              {{ pd.facturasVencidas ?? '—' }}
+              {{ pd.creditLine > 0 ? 100 : (0 | number: '1.0-0') }}%
+            </td>
+
+            <td class="px-3 xl:px-4 py-2.5 text-right whitespace-nowrap tabular-nums">
+              {{ pd.facturasVencidas != null ? pd.facturasVencidas : '' }}
             </td>
             <td class="px-3 xl:px-4 py-2.5 text-right whitespace-nowrap tabular-nums">
               {{ (pd.montoPorVencer | number: '1.2-2') ?? '—' }}

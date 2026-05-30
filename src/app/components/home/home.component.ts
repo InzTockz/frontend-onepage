@@ -19,6 +19,7 @@ import { GridComponent, TooltipComponent, LegendComponent, DatasetComponent } fr
 import { CanvasRenderer } from 'echarts/renderers';
 import type { EChartsCoreOption } from 'echarts/core';
 import { ResumenCarteraSap } from '../../models/factura-cliente/resumen-cartera-sap.model';
+import { ClienteDeudor } from '../../models/cliente/cliente-deudor.model';
 echarts.use([BarChart, LineChart, GridComponent, CanvasRenderer, TooltipComponent, LegendComponent, DatasetComponent]);
 
 @Component({
@@ -85,12 +86,14 @@ export class HomeComponent implements OnInit {
   clienteSeleccionado: string = "-1";
   mesHistoricoSeleccionado: number = 0;
   clientes: Cliente[] = [];
+  clientesDeudores: ClienteDeudor[] = [];
   vendedores: Vendedor[] = [];
   facturasPorCobrar: FacturasPorCobrar[] = [];
   facturasPorCobrarTopDiez: { name: string, value: number }[] = [];
   resumenCartera: ResumenCartera[] = [];
   resumenHistorico: ResumenCartera[] = [];
   mesActual: number = new Date().getMonth() + 1;
+  clientesExpandidos = new Set<string>();
 
 
   constructor(private clienteService: ClienteService, private vendedorService: VendedorService,
@@ -98,10 +101,11 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getClientes();
+    // this.getClientes();
     this.getVendedor();
     this.getFacturasPorCobrarTopDiez();
     this.cargarDataCompleta();
+    this.getClientesDeudores();
   }
 
   /**VISTA GENERAL DE LOS REPORTES */
@@ -408,22 +412,10 @@ export class HomeComponent implements OnInit {
     return this.meses.filter(m => m.id >= 1 && m.id <= this.mesActual);
   }
 
-  // get contadorClienteDeudor(): number{
-  //   this.
-  //   return 0
-  // }
-
-  /** ========================================================================================== */
-
-  /**DETALLE DE REPORTES POR COBRAR POR USUARIO Y/O VENDEDOR */
-
-  //FACTURAS POR COBRAR: POR CLIENTE
-  getFacturasPorCobrarCliente(ruc: string) {
-    return this.facturaClienteService.getFacturasPorCobrarCliente(ruc).subscribe(
-      data => {
-        this.facturasPorCobrar = data;
-      }
-    )
+  getValorPorPeriodo(periodo: number, campo: string) {
+    const resumen = this.resumenCartera.find(rc => rc.periodo === periodo);
+    if (!resumen) return 0;
+    return (resumen as any)[campo] || 0;
   }
 
   //FACTURAS POR COBRAR: TOP DE 10 PRIMEROS CON MONTOS ALTOS
@@ -434,6 +426,19 @@ export class HomeComponent implements OnInit {
         for (var f of data) {
           this.facturasPorCobrarTopDiez.push({ name: f.nombre, value: f.saldo });
         }
+      }
+    )
+  }
+
+  /** ========================================================================================== */
+
+  /**DETALLE DE REPORTES POR COBRAR POR USUARIO Y/O VENDEDOR */
+
+  //FACTURAS POR COBRAR: POR CLIENTE
+  getFacturasPorCobrarCliente(ruc: string) {
+    return this.facturaClienteService.getFacturasPorCobrarCliente(ruc).subscribe(
+      data => {
+        this.facturasPorCobrar = data;
       }
     )
   }
@@ -513,9 +518,21 @@ export class HomeComponent implements OnInit {
     )
   }
 
+  getClientesDeudores() {
+    this.clienteService.getDeudores().subscribe(
+      data => this.clientesDeudores = data
+    )
+  }
+
   getClientesPorVendedor(idVendedor: number) {
     return this.clienteService.getClientesPorVendedor(idVendedor).subscribe(
       data => this.clientes = data
+    )
+  }
+
+  getClientesDeudoresPorVendedor(idVendedor: number) {
+    this.clienteService.getDeudoresPorVendedor(idVendedor).subscribe(
+      data => this.clientesDeudores = data
     )
   }
 
@@ -529,12 +546,14 @@ export class HomeComponent implements OnInit {
   changeConsultor(value: string) {
     var convertNumber = Number(value);
     if (value != "-1") {
-      this.getClientesPorVendedor(convertNumber);
+      // this.getClientesPorVendedor(convertNumber);
+      this.getClientesDeudoresPorVendedor(convertNumber);
       this.getFacturasPorCobrarVendedor(convertNumber);
       this.clienteSeleccionado = '-1';
 
     } else {
-      this.getClientes()
+      // this.getClientes()
+      this.getClientesDeudores()
       this.facturasPorCobrar = [];
     }
   }
@@ -544,6 +563,30 @@ export class HomeComponent implements OnInit {
       this.getFacturasPorCobrarCliente(ruc);
     } else {
       this.facturasPorCobrar = [];
+    }
+  }
+
+  get facturasPorCobrarAgrupadas(): { nombre: string, totalImporte: number, totalSaldo: number, facturas: FacturasPorCobrar[] }[] {
+    const grupos = new Map<string, FacturasPorCobrar[]>();
+
+    this.facturasPorCobrar.forEach(f => {
+      if (!grupos.has(f.nombre)) grupos.set(f.nombre, []);
+      grupos.get(f.nombre)!.push(f);
+    });
+
+    return Array.from(grupos.entries()).map(([nombre, facturas]) => ({
+      nombre,
+      totalImporte: facturas.reduce((acc, f) => acc + f.importe, 0),
+      totalSaldo: facturas.reduce((acc, f) => acc + f.saldo, 0),
+      facturas
+    }));
+  }
+
+  toggleCliente(nombre: string) {
+    if (this.clientesExpandidos.has(nombre)) {
+      this.clientesExpandidos.delete(nombre);
+    } else {
+      this.clientesExpandidos.add(nombre);
     }
   }
 
