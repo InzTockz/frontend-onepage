@@ -80,6 +80,7 @@ export class HomeComponent implements OnInit {
     { key: 'vencido0a30', label: 'Entre 0 y 30' },
     { key: 'noVencido', label: 'No vencido' },
   ];
+  topDiezChart: EChartsCoreOption = {};
 
   /* Modelo */
   consultorSeleccionada: string = "-1";
@@ -93,7 +94,9 @@ export class HomeComponent implements OnInit {
   resumenCartera: ResumenCartera[] = [];
   resumenHistorico: ResumenCartera[] = [];
   mesActual: number = new Date().getMonth() + 1;
+  // mesActual: number = 6;
   clientesExpandidos = new Set<string>();
+
 
 
   constructor(private clienteService: ClienteService, private vendedorService: VendedorService,
@@ -156,17 +159,13 @@ export class HomeComponent implements OnInit {
   }
 
   changeMesCartera() {
+
+    this.mesHistoricoSeleccionado = Number(this.mesHistoricoSeleccionado)
+
     if (this.mesHistoricoSeleccionado == 0 || this.mesHistoricoSeleccionado == this.mesActual) {
       this.cargarDataCompleta();
     } else if (this.mesHistoricoSeleccionado < this.mesActual) {
       this.getResumenCarteraPorMes(this.mesHistoricoSeleccionado);
-      // } else if (this.mesHistoricoSeleccionado == this.mesActual) {
-      //   this.facturaClienteService.getResumenCartera().subscribe(sap => {
-      //     this.resumenCartera = [this.convertirSapResumen(sap[0])];
-      //     this.graficaDeBarrasApiladas()
-      //     this.graficaDeLineas()
-      //     this.graficaWorldPopulation()
-      //   });
     } else {
       this.resumenCartera = [];
       this.graficaDeBarrasApiladas()
@@ -298,14 +297,24 @@ export class HomeComponent implements OnInit {
 
   graficaWorldPopulation() {
     const meses = ['', 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'];
-    const colores = ['#1a237e', '#f57c00', '#2e7d32', '#00acc1', '#6a1b9a', '#ad1457', '#558b2f'];
+    const categorias = this.resumenCartera.map(rc => meses[rc.periodo]);
+
+    const series = [
+      { nombre: 'No vencido', color: '#3b82f6', key: 'noVencido' },
+      { nombre: '0 - 30', color: '#22c55e', key: 'vencido0a30' },
+      { nombre: '31 - 45', color: '#f59e0b', key: 'vencido31a45' },
+      { nombre: '46 - 60', color: '#f97316', key: 'vencido46a60' },
+      { nombre: '61 - 90', color: '#ef4444', key: 'vencido61a90' },
+      { nombre: '91 - 180', color: '#a855f7', key: 'vencido91a180' },
+      { nombre: '180+', color: '#7c3aed', key: 'vencido180aMas' },
+    ];
 
     this.worldPopulation = {
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'shadow' },
         formatter: (params: any) => {
-          let result = `<b>${params[0].axisValue}</b><br/>`;
+          let result = `<b>${params[0].name}</b><br/>`;
           params.forEach((p: any) => {
             if (p.value === 0) return;
             const valor = p.value.toLocaleString('es', { minimumFractionDigits: 2 });
@@ -332,15 +341,14 @@ export class HomeComponent implements OnInit {
       },
       yAxis: {
         type: 'category',
-        inverse: false,
-        data: this.todasCategorias.map(c => c.label)
+        inverse: true,
+        data: categorias
       },
-      series: this.resumenCartera.map((rc, i) => ({
-        name: meses[rc.periodo],
+      series: series.map(s => ({
+        name: s.nombre,
         type: 'bar',
-        itemStyle: { color: colores[i % colores.length] },
-        label: { show: false },
-        data: this.todasCategorias.map(c => (rc as any)[c.key])
+        itemStyle: { color: s.color },
+        data: this.resumenCartera.map((rc: any) => rc[s.key])
       }))
     };
   }
@@ -409,13 +417,68 @@ export class HomeComponent implements OnInit {
   }
 
   get mesesTabla() {
-    return this.meses.filter(m => m.id >= 1 && m.id <= this.mesActual);
+
+    const hastaElMes = this.mesHistoricoSeleccionado === 0
+      ? this.mesActual
+      : this.mesHistoricoSeleccionado;
+
+    return this.meses.filter(m => m.id >= 1 && m.id <= hastaElMes);
   }
 
   getValorPorPeriodo(periodo: number, campo: string) {
     const resumen = this.resumenCartera.find(rc => rc.periodo === periodo);
     if (!resumen) return 0;
     return (resumen as any)[campo] || 0;
+  }
+
+  graficaTopDiez() {
+    const nombres = this.facturasPorCobrarTopDiez.map(f => f.name);
+    const valores = this.facturasPorCobrarTopDiez.map(f => f.value);
+
+    this.topDiezChart = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'shadow' },
+        formatter: (params: any) => {
+          const p = params[0];
+          const valor = p.value.toLocaleString('es', { minimumFractionDigits: 2 });
+          return `<b>${p.name}</b><br/>${p.marker} Saldo: $ ${valor}`;
+        }
+      },
+      grid: { left: '3%', right: '8%', bottom: '3%', top: '3%', containLabel: true },
+      xAxis: {
+        type: 'value',
+        axisLabel: {
+          formatter: (val: number) =>
+            `$ ${(val / 1000).toFixed(0)}K`
+        }
+      },
+      yAxis: {
+        type: 'category',
+        inverse: true,
+        data: nombres,
+        axisLabel: {
+          fontSize: 10,
+          width: 150,
+          overflow: 'truncate'
+        }
+      },
+      series: [{
+        type: 'bar',
+        data: valores,
+        itemStyle: {
+          color: {
+            type: 'linear',
+            x: 0, y: 0, x2: 1, y2: 0,
+            colorStops: [
+              { offset: 0, color: '#1e40af' },
+              { offset: 1, color: '#3b82f6' }
+            ]
+          },
+          borderRadius: [0, 4, 4, 0]
+        }
+      }]
+    };
   }
 
   //FACTURAS POR COBRAR: TOP DE 10 PRIMEROS CON MONTOS ALTOS
@@ -426,6 +489,7 @@ export class HomeComponent implements OnInit {
         for (var f of data) {
           this.facturasPorCobrarTopDiez.push({ name: f.nombre, value: f.saldo });
         }
+        this.graficaTopDiez();
       }
     )
   }

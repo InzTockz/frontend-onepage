@@ -7,8 +7,8 @@
         class="px-6 py-3 text-sm font-medium transition-all duration-200 border-b-2 -mb-px"
         [class]="
           activeTab() === $index
-            ? 'border-pink-600 text-pink-600'
-            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            ? 'border-blue-900 text-blue-900'
+            : 'border-transparent text-gray-500 hover:text-gray-600 hover:border-gray-300'
         "
       >
         {{ tab }}
@@ -21,21 +21,24 @@
     @switch (activeTab()) {
       <!-- ======================== TAB 0 ======================== -->
       @case (0) {
-        <div class="grid grid-cols-6 gap-3">
+        <div class="grid grid-cols-6 gap-4">
           <!-- Card: Análisis header -->
           <div
-            class="col-span-4 bg-white border border-gray-200 rounded-xl p-4 flex flex-row shadow-sm"
+            class="col-span-4 bg-white border border-gray-200 rounded-2xl p-5 flex flex-row shadow-sm hover:shadow-md transition-shadow"
           >
             <div class="flex flex-col justify-between h-full w-full gap-3">
-              <h1 class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                Análisis de las cuentas por cobrar
-              </h1>
-              <div class="flex flex-row gap-4">
+              <div>
+                <h1 class="text-xs font-bold text-blue-900 uppercase tracking-widest">
+                  Análisis de las cuentas por cobrar
+                </h1>
+                <p class="text-[10px] text-gray-500 mt-0.5">Resumen general del portafolio</p>
+              </div>
+              <div class="flex flex-row gap-3">
                 <select
                   #selectMeses
                   [(ngModel)]="mesHistoricoSeleccionado"
                   (change)="changeMesCartera()"
-                  class="bg-white border border-gray-400 text-gray-900 text-sm rounded-lg px-3 py-2 cursor-pointer outline-none hover:border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all w-48"
+                  class="bg-gray-50 border border-gray-200 text-gray-800 text-xs rounded-lg px-3 py-2 cursor-pointer outline-none hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all w-44"
                 >
                   @for (m of mesesDisponibles; track $index) {
                     <option [value]="m.id">{{ m.descripcion }}</option>
@@ -43,7 +46,7 @@
                 </select>
                 <select
                   hidden
-                  class="bg-white border border-gray-400 text-gray-900 text-sm rounded-lg px-3 py-2 cursor-pointer outline-none hover:border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all w-48"
+                  class="bg-gray-50 border border-gray-200 text-gray-800 text-xs rounded-lg px-3 py-2 cursor-pointer outline-none transition-all w-44"
                 >
                   <option>Seleccionar Consultor</option>
                   @for (v of vendedores; track $index) {
@@ -52,172 +55,177 @@
                 </select>
               </div>
             </div>
-            <div class="w-full flex flex-row items-center justify-end gap-4">
-              <div class="flex flex-col items-center gap-1">
-                <svg lucideUsersRound [size]="48" class="text-pink-500"></svg>
-                <span class="text-xs text-gray-500 uppercase tracking-wide">Clientes</span>
+            <div class="w-full flex flex-row items-center justify-end gap-5">
+              <div class="flex flex-col items-center gap-1.5">
+                <div class="w-14 h-14 rounded-full bg-pink-50 flex items-center justify-center">
+                  <svg lucideUsersRound [size]="28" class="text-pink-500"></svg>
+                </div>
+                <span class="text-[10px] text-gray-500 uppercase tracking-widest">Clientes</span>
               </div>
-              <span class="text-4xl font-bold text-gray-800">{{ clientesDeudores.length }}</span>
+              <span class="text-5xl font-extrabold text-gray-800 tabular-nums">{{
+                clientesDeudores.length
+              }}</span>
             </div>
           </div>
+
           <!-- Card: Cartera USD -->
           <div
-            class="col-span-2 bg-white border border-gray-200 rounded-xl p-4 flex flex-row items-center justify-center gap-4 shadow-sm"
+            class="col-span-2 bg-white border border-gray-200 rounded-2xl p-5 flex flex-row items-center justify-center gap-5 shadow-sm hover:shadow-md transition-shadow"
           >
-            <div class="flex flex-col items-center gap-1">
-              <svg lucideWalletMinimal size="48" class="text-orange-500"></svg>
-              <span class="text-xs text-gray-500 uppercase tracking-wide">Cartera USD</span>
+            <div class="flex flex-col items-center gap-1.5">
+              <div class="w-14 h-14 rounded-full bg-orange-50 flex items-center justify-center">
+                <svg lucideWalletMinimal size="28" class="text-orange-500"></svg>
+              </div>
+              <span class="text-[10px] text-gray-500 uppercase tracking-widest">Cartera USD</span>
             </div>
-            <span class="text-4xl font-bold text-gray-800"
-              >{{ this.montoTotalHistorico | number: '1.2-2' }} M</span
-            >
+            <span class="text-4xl font-extrabold text-gray-800 tabular-nums">
+              {{ this.montoTotalHistorico | number: '1.2-2' }}
+              <span class="text-lg font-semibold text-gray-500">M</span>
+            </span>
           </div>
 
           <!-- Card: Tabla USD/1000 -->
           <div
-            class="col-span-4 bg-white border border-gray-200 rounded-xl p-4 shadow-sm overflow-x-auto"
+            class="col-span-4 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm overflow-x-auto"
           >
-            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-3">
-              Histórico mensual
-            </span>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <span class="text-xs font-bold text-blue-900 uppercase tracking-widest block">
+                  Histórico mensual
+                </span>
+                <span class="text-[10px] text-gray-500">Valores expresados en USD/1000</span>
+              </div>
+            </div>
             <table class="w-full text-[10px] text-gray-700 border-collapse">
               <thead>
                 <tr class="bg-blue-950 text-white uppercase tracking-wider">
                   <th
-                    class="px-2 py-1 font-medium text-left rounded-tl-lg sticky left-0 bg-blue-950 z-10 whitespace-nowrap"
+                    class="px-3 py-2.5 font-medium text-left rounded-tl-lg sticky left-0 bg-blue-950 z-10 whitespace-nowrap"
                   >
                     USD/1000
                   </th>
-                  <!-- <th class="px-2 py-1 font-medium text-right whitespace-nowrap">Dic xx</th> -->
-                  <th class="px-2 py-1 font-medium text-right">Ene</th>
-                  <th class="px-2 py-1 font-medium text-right">Feb</th>
-                  <th class="px-2 py-1 font-medium text-right">Mar</th>
-                  <th class="px-2 py-1 font-medium text-right">Abr</th>
-                  <th class="px-2 py-1 font-medium text-right">May</th>
-                  <th class="px-2 py-1 font-medium text-right">Jun</th>
-                  <th class="px-2 py-1 font-medium text-right">Jul</th>
-                  <th class="px-2 py-1 font-medium text-right">Ago</th>
-                  <th class="px-2 py-1 font-medium text-right">Set</th>
-                  <th class="px-2 py-1 font-medium text-right">Oct</th>
-                  <th class="px-2 py-1 font-medium text-right">Nov</th>
-                  <th class="px-2 py-1 font-medium text-right rounded-tr-lg">Dic</th>
+                  @for (m of mesesTabla; track $index) {
+                    <th
+                      class="px-3 py-2.5 font-medium text-right whitespace-nowrap"
+                      [class.rounded-tr-lg]="$last"
+                    >
+                      {{ m.descripcion.substring(0, 3) }}
+                    </th>
+                  }
                 </tr>
               </thead>
-              <tbody class="divide-y divide-gray-100 text-center">
+              <tbody class="divide-y divide-gray-100">
                 @if (resumenCartera == null || resumenCartera.length === 0) {
                   <tr>
-                    <td colspan="14" class="px-2 py-3 text-center text-gray-400">Sin datos</td>
+                    <td
+                      [attr.colspan]="mesesTabla.length + 1"
+                      class="px-3 py-6 text-center text-gray-500 text-xs"
+                    >
+                      Sin datos disponibles
+                    </td>
                   </tr>
                 } @else {
-                  <tr class="hover:bg-blue-50/50">
+                  <tr class="hover:bg-blue-50/40 transition-colors">
                     <td
-                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-white z-10 whitespace-nowrap"
+                      class="px-3 py-1.5 text-left font-semibold text-green-700 sticky left-0 bg-white z-10 whitespace-nowrap"
                     >
                       No vencido
                     </td>
-                    <!-- <td></td> -->
-                    @for (rc of resumenCartera; track $index) {
-                      <td class="px-2 py-0.5 font-mono text-green-700">
-                        {{ rc.noVencido / 1000 | number: '1.0-0' }}
+                    @for (m of mesesTabla; track $index) {
+                      <td class="px-3 py-1.5 text-right font-mono text-green-700">
+                        {{ getValorPorPeriodo(m.id, 'noVencido') / 1000 | number: '1.0-0' }}
                       </td>
                     }
                   </tr>
-                  <tr class="hover:bg-blue-50/50 bg-gray-50/30">
+                  <tr class="hover:bg-blue-50/40 transition-colors bg-gray-50/40">
                     <td
-                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-gray-50/30 z-10 whitespace-nowrap"
+                      class="px-3 py-1.5 text-left font-medium text-gray-600 sticky left-0 bg-gray-50/40 z-10 whitespace-nowrap"
                     >
                       0 - 30
                     </td>
-                    <!-- <td></td> -->
-                    @for (rc of resumenCartera; track $index) {
-                      <td class="px-2 py-0.5 font-mono">
-                        {{ rc.vencido0a30 / 1000 | number: '1.0-0' }}
+                    @for (m of mesesTabla; track $index) {
+                      <td class="px-3 py-1.5 text-right font-mono text-gray-600">
+                        {{ getValorPorPeriodo(m.id, 'vencido0a30') / 1000 | number: '1.0-0' }}
                       </td>
                     }
                   </tr>
-                  <tr class="hover:bg-blue-50/50">
+                  <tr class="hover:bg-blue-50/40 transition-colors">
                     <td
-                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-white z-10 whitespace-nowrap"
+                      class="px-3 py-1.5 text-left font-medium text-gray-600 sticky left-0 bg-white z-10 whitespace-nowrap"
                     >
                       31 - 45
                     </td>
-                    <!-- <td></td> -->
-                    @for (rc of resumenCartera; track $index) {
-                      <td class="px-2 py-0.5 font-mono">
-                        {{ rc.vencido31a45 / 1000 | number: '1.0-0' }}
+                    @for (m of mesesTabla; track $index) {
+                      <td class="px-3 py-1.5 text-right font-mono text-gray-600">
+                        {{ getValorPorPeriodo(m.id, 'vencido31a45') / 1000 | number: '1.0-0' }}
                       </td>
                     }
                   </tr>
-                  <tr class="hover:bg-blue-50/50 bg-gray-50/30">
+                  <tr class="hover:bg-blue-50/40 transition-colors bg-gray-50/40">
                     <td
-                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-gray-50/30 z-10 whitespace-nowrap"
+                      class="px-3 py-1.5 text-left font-medium text-gray-600 sticky left-0 bg-gray-50/40 z-10 whitespace-nowrap"
                     >
                       46 - 60
                     </td>
-                    <!-- <td></td> -->
-                    @for (rc of resumenCartera; track $index) {
-                      <td class="px-2 py-0.5 font-mono">
-                        {{ rc.vencido46a60 / 1000 | number: '1.0-0' }}
+                    @for (m of mesesTabla; track $index) {
+                      <td class="px-3 py-1.5 text-right font-mono text-gray-600">
+                        {{ getValorPorPeriodo(m.id, 'vencido46a60') / 1000 | number: '1.0-0' }}
                       </td>
                     }
                   </tr>
-                  <tr class="hover:bg-blue-50/50">
+                  <tr class="hover:bg-blue-50/40 transition-colors">
                     <td
-                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-white z-10 whitespace-nowrap"
+                      class="px-3 py-1.5 text-left font-medium text-orange-600 sticky left-0 bg-white z-10 whitespace-nowrap"
                     >
                       61 - 90
                     </td>
-                    <!-- <td></td> -->
-                    @for (rc of resumenCartera; track $index) {
-                      <td class="px-2 py-0.5 font-mono text-orange-600">
-                        {{ rc.vencido61a90 / 1000 | number: '1.0-0' }}
+                    @for (m of mesesTabla; track $index) {
+                      <td class="px-3 py-1.5 text-right font-mono text-orange-600">
+                        {{ getValorPorPeriodo(m.id, 'vencido61a90') / 1000 | number: '1.0-0' }}
                       </td>
                     }
                   </tr>
-                  <tr class="hover:bg-blue-50/50 bg-gray-50/30">
+                  <tr class="hover:bg-blue-50/40 transition-colors bg-gray-50/40">
                     <td
-                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-gray-50/30 z-10 whitespace-nowrap"
+                      class="px-3 py-1.5 text-left font-medium text-red-500 sticky left-0 bg-gray-50/40 z-10 whitespace-nowrap"
                     >
                       91 - 180
                     </td>
-                    <!-- <td></td> -->
-                    @for (rc of resumenCartera; track $index) {
-                      <td class="px-2 py-0.5 font-mono text-red-500">
-                        {{ rc.vencido91a180 / 1000 | number: '1.0-0' }}
+                    @for (m of mesesTabla; track $index) {
+                      <td class="px-3 py-1.5 text-right font-mono text-red-500">
+                        {{ getValorPorPeriodo(m.id, 'vencido91a180') / 1000 | number: '1.0-0' }}
                       </td>
                     }
                   </tr>
-                  <tr class="hover:bg-blue-50/50">
+                  <tr class="hover:bg-blue-50/40 transition-colors">
                     <td
-                      class="px-2 py-0.5 text-left font-medium text-gray-600 sticky left-0 bg-white z-10 whitespace-nowrap"
+                      class="px-3 py-1.5 text-left font-semibold text-red-700 sticky left-0 bg-white z-10 whitespace-nowrap"
                     >
                       +180
                     </td>
-                    <!-- <td></td> -->
-                    @for (rc of resumenCartera; track $index) {
-                      <td class="px-2 py-0.5 font-mono text-red-700 font-semibold">
-                        {{ rc.vencido180aMas / 1000 | number: '1.0-0' }}
+                    @for (m of mesesTabla; track $index) {
+                      <td class="px-3 py-1.5 text-right font-mono text-red-700 font-semibold">
+                        {{ getValorPorPeriodo(m.id, 'vencido180aMas') / 1000 | number: '1.0-0' }}
                       </td>
                     }
                   </tr>
                 }
                 <tr class="bg-blue-900 text-white font-semibold">
                   <td
-                    class="px-2 py-1 text-left sticky left-0 bg-blue-900 z-10 rounded-bl-lg whitespace-nowrap"
+                    class="px-3 py-2 text-left sticky left-0 bg-blue-900 z-10 rounded-bl-lg whitespace-nowrap"
                   >
                     Total
                   </td>
-                  <!-- <td></td> -->
-                  @for (rc of resumenCartera; track $index) {
-                    <td class="px-2 py-1 font-mono">
+                  @for (m of mesesTabla; track $index) {
+                    <td class="px-3 py-2 text-right font-mono">
                       {{
-                        (rc.noVencido +
-                          rc.vencido0a30 +
-                          rc.vencido31a45 +
-                          rc.vencido46a60 +
-                          rc.vencido61a90 +
-                          rc.vencido91a180 +
-                          rc.vencido180aMas) /
+                        (getValorPorPeriodo(m.id, 'noVencido') +
+                          getValorPorPeriodo(m.id, 'vencido0a30') +
+                          getValorPorPeriodo(m.id, 'vencido31a45') +
+                          getValorPorPeriodo(m.id, 'vencido46a60') +
+                          getValorPorPeriodo(m.id, 'vencido61a90') +
+                          getValorPorPeriodo(m.id, 'vencido91a180') +
+                          getValorPorPeriodo(m.id, 'vencido180aMas')) /
                           1000 | number: '1.0-0'
                       }}
                     </td>
@@ -225,31 +233,41 @@
                 </tr>
                 <tr class="bg-pink-600 text-white font-semibold">
                   <td
-                    class="px-2 py-1 text-left sticky left-0 bg-pink-600 z-10 rounded-bl-lg whitespace-nowrap"
+                    class="px-3 py-2 text-left sticky left-0 bg-pink-600 z-10 rounded-bl-lg whitespace-nowrap"
                   >
                     Morosidad
                   </td>
-                  <!-- <td></td> -->
-                  @for (rc of resumenCartera; track $index) {
-                    <td class="px-2 py-1 font-mono">
-                      {{
-                        ((rc.noVencido +
-                          rc.vencido0a30 +
-                          rc.vencido31a45 +
-                          rc.vencido46a60 +
-                          rc.vencido61a90 +
-                          rc.vencido91a180 +
-                          rc.vencido180aMas -
-                          rc.noVencido) /
-                          (rc.noVencido +
-                            rc.vencido0a30 +
-                            rc.vencido31a45 +
-                            rc.vencido46a60 +
-                            rc.vencido61a90 +
-                            rc.vencido91a180 +
-                            rc.vencido180aMas)) *
-                          100 | number: '1.0-0'
-                      }}%
+                  @for (m of mesesTabla; track $index) {
+                    <td class="px-3 py-2 text-right font-mono">
+                      @if (
+                        getValorPorPeriodo(m.id, 'noVencido') +
+                          getValorPorPeriodo(m.id, 'vencido0a30') +
+                          getValorPorPeriodo(m.id, 'vencido31a45') +
+                          getValorPorPeriodo(m.id, 'vencido46a60') +
+                          getValorPorPeriodo(m.id, 'vencido61a90') +
+                          getValorPorPeriodo(m.id, 'vencido91a180') +
+                          getValorPorPeriodo(m.id, 'vencido180aMas') >
+                        0
+                      ) {
+                        {{
+                          ((getValorPorPeriodo(m.id, 'vencido0a30') +
+                            getValorPorPeriodo(m.id, 'vencido31a45') +
+                            getValorPorPeriodo(m.id, 'vencido46a60') +
+                            getValorPorPeriodo(m.id, 'vencido61a90') +
+                            getValorPorPeriodo(m.id, 'vencido91a180') +
+                            getValorPorPeriodo(m.id, 'vencido180aMas')) /
+                            (getValorPorPeriodo(m.id, 'noVencido') +
+                              getValorPorPeriodo(m.id, 'vencido0a30') +
+                              getValorPorPeriodo(m.id, 'vencido31a45') +
+                              getValorPorPeriodo(m.id, 'vencido46a60') +
+                              getValorPorPeriodo(m.id, 'vencido61a90') +
+                              getValorPorPeriodo(m.id, 'vencido91a180') +
+                              getValorPorPeriodo(m.id, 'vencido180aMas'))) *
+                            100 | number: '1.0-0'
+                        }}%
+                      } @else {
+                        0%
+                      }
                     </td>
                   }
                 </tr>
@@ -259,12 +277,12 @@
 
           <!-- Card: Tasa de morosidad -->
           <div
-            class="col-span-2 bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col items-center justify-center gap-3"
+            class="col-span-2 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center justify-center gap-4"
           >
-            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide"
+            <span class="text-xs font-bold text-blue-900 uppercase tracking-widest"
               >Tasa de Morosidad</span
             >
-            <div class="flex flex-row items-center justify-center gap-4">
+            <div class="flex flex-row items-center justify-center gap-5">
               <circle-progress
                 [percent]="this.tasaMorosidadPorcentaje"
                 [maxPercent]="100"
@@ -285,80 +303,74 @@
                 [animation]="true"
               >
               </circle-progress>
-              <div class="flex flex-col items-center">
-                <span class="text-xs text-pink-500 font-semibold uppercase">Vencido USD</span>
-                <span class="text-2xl font-bold text-gray-800"
-                  >{{ montoTotalHistoricoVencido | number: '1.2-2' }} M</span
+              <div class="flex flex-col items-center gap-1">
+                <span class="text-[10px] text-pink-500 font-bold uppercase tracking-widest"
+                  >Vencido USD</span
                 >
+                <span class="text-3xl font-extrabold text-gray-800 tabular-nums">
+                  {{ montoTotalHistoricoVencido | number: '1.2-2' }}
+                  <span class="text-sm font-semibold text-gray-500">M</span>
+                </span>
               </div>
             </div>
           </div>
 
-          <!-- Card: Gráfico barras horizontal -->
+          <!-- Card: Distribución -->
           <div
-            class="col-span-3 flex flex-col gap-2 bg-white border border-gray-200 rounded-xl p-4 shadow-sm"
+            class="col-span-3 flex flex-col gap-2 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow"
           >
-            <span class="text-xs font-semibold text-gray-500 uppercase">Distribución</span>
+            <div>
+              <span class="text-xs font-bold text-blue-900 uppercase tracking-widest"
+                >Distribución</span
+              >
+              <p class="text-[10px] text-gray-500 mt-0.5">
+                Barras apiladas por rango de antigüedad
+              </p>
+            </div>
             <div echarts [options]="barraAcumuladoHorizontal" class="w-full h-full"></div>
           </div>
 
-          <!-- Card: Gráfico líneas -->
+          <!-- Card: Morosidad -->
           <div
-            class="col-span-3 flex flex-col gap-2 bg-white border border-gray-200 rounded-xl p-4 shadow-sm"
+            class="col-span-3 flex flex-col gap-2 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow"
           >
-            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide block"
-              >Morosidad</span
-            >
+            <div>
+              <span class="text-xs font-bold text-blue-900 uppercase tracking-widest"
+                >Morosidad</span
+              >
+              <p class="text-[10px] text-gray-500 mt-0.5">Evolución porcentual mensual</p>
+            </div>
             <div class="flex justify-center items-center">
               <div echarts [options]="lineaMonosidad" class="w-full h-64"></div>
             </div>
           </div>
 
-          <!-- Card: Gráfico barras 2 -->
+          <!-- Card: Detalle por antigüedad -->
           <div
-            class="col-span-3 flex flex-col gap-2 bg-white border border-gray-200 rounded-xl p-4 shadow-sm"
+            class="col-span-3 flex flex-col gap-2 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow"
           >
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                Detalle por antigüedad
-              </span>
-              <select
-                [(ngModel)]="rangoSeleccionado"
-                (change)="filtrarRangoWP(rangoSeleccionado)"
-                class="bg-white border border-gray-400 text-gray-900 text-sm rounded-lg px-3 py-1.5 cursor-pointer outline-none hover:border-gray-600 focus:border-indigo-500 transition-all"
+            <div>
+              <span class="text-xs font-bold text-blue-900 uppercase tracking-widest"
+                >Detalle por antigüedad</span
               >
-                @for (r of rangosWP; track $index) {
-                  <option [value]="r.key">{{ r.label }}</option>
-                }
-              </select>
+              <p class="text-[10px] text-gray-500 mt-0.5">
+                Click en la leyenda para filtrar rangos
+              </p>
             </div>
-            <div
-              echarts
-              [options]="worldPopulation"
-              [merge]="worldPopulationMerge"
-              class="w-full h-96"
-            ></div>
+            <div echarts [options]="worldPopulation" class="w-full h-96"></div>
           </div>
 
           <!-- Card: Top 10 clientes -->
           <div
-            class="col-span-3 flex flex-col gap-2 bg-white border border-gray-200 rounded-xl p-4 shadow-sm"
+            class="col-span-3 flex flex-col gap-2 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow"
           >
-            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-3"
-              >Top 10 clientes</span
-            >
-            <div class="h-64 flex items-center justify-center">
-              <ngx-charts-bar-vertical
-                [results]="facturasPorCobrarTopDiez"
-                [gradient]="false"
-                [xAxis]="true"
-                [yAxis]="true"
-                [legend]="false"
-                [showXAxisLabel]="false"
-                [animations]="false"
+            <div>
+              <span class="text-xs font-bold text-blue-900 uppercase tracking-widest"
+                >Top 10 clientes</span
               >
-              </ngx-charts-bar-vertical>
+              <p class="text-[10px] text-gray-500 mt-0.5">Clientes con mayor saldo pendiente</p>
             </div>
+            <div echarts [options]="topDiezChart" class="w-full h-80"></div>
           </div>
         </div>
       }
@@ -368,18 +380,16 @@
         <div class="grid grid-cols-4 gap-4">
           <!-- Card: Filtros -->
           <div
-            class="col-span-3 bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex flex-row justify-between items-start"
+            class="col-span-3 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex flex-row justify-between items-start"
           >
             <div class="flex flex-col gap-3">
-              <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide"
-                >Filtros</span
-              >
+              <span class="text-xs font-bold text-blue-900 uppercase tracking-widest">Filtros</span>
               <div class="flex gap-3 items-center flex-wrap">
                 <select
                   #selectConsultor
                   [(ngModel)]="consultorSeleccionada"
                   (change)="changeConsultor(selectConsultor.value)"
-                  class="bg-white border border-gray-400 text-gray-900 text-sm rounded-lg px-3 py-2 cursor-pointer outline-none hover:border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all"
+                  class="bg-gray-50 border border-gray-200 text-gray-800 text-xs rounded-lg px-3 py-2 cursor-pointer outline-none hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
                 >
                   <option value="-1">Seleccionar consultores</option>
                   @for (v of vendedores; track $index) {
@@ -390,10 +400,9 @@
                   #selectCliente
                   [(ngModel)]="clienteSeleccionado"
                   (change)="changeCliente(selectCliente.value)"
-                  class="bg-white border border-gray-400 text-gray-900 text-sm rounded-lg px-3 py-2 cursor-pointer outline-none hover:border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all w-72 truncate"
+                  class="bg-gray-50 border border-gray-200 text-gray-800 text-xs rounded-lg px-3 py-2 cursor-pointer outline-none hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all w-72 truncate"
                 >
                   <option value="-1">Seleccionar Clientes</option>
-                  <!-- @for (c of clientes; track $index) { -->
                   @for (c of clientesDeudores; track $index) {
                     <option [value]="c.ruc">{{ c.nombre }}</option>
                   }
@@ -403,7 +412,7 @@
             <div class="flex items-start">
               <select
                 disabled
-                class="disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg px-3 py-2 outline-none transition-all"
+                class="disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500 bg-gray-50 border border-gray-200 text-gray-800 text-xs rounded-lg px-3 py-2 outline-none transition-all"
               >
                 @for (m of meses; track $index) {
                   <option [value]="m.id">{{ m.descripcion }}</option>
@@ -412,9 +421,9 @@
             </div>
           </div>
 
-          <!-- Card: Vencido USD (row-span-2) -->
+          <!-- Card: Vencido USD -->
           <div
-            class="row-span-2 bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex items-center justify-center"
+            class="row-span-2 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center"
           >
             <div class="flex flex-col items-center gap-4">
               <circle-progress
@@ -439,8 +448,10 @@
               >
               </circle-progress>
               <div class="text-center">
-                <p class="text-xs font-bold tracking-widest text-pink-500 uppercase">Vencido USD</p>
-                <p class="text-2xl font-bold text-gray-800">
+                <p class="text-[10px] font-bold tracking-widest text-pink-500 uppercase">
+                  Vencido USD
+                </p>
+                <p class="text-2xl font-extrabold text-gray-800 tabular-nums">
                   $ {{ getRecibosVencidosTotal() | number: '1.0-0' }}
                 </p>
               </div>
@@ -449,30 +460,34 @@
 
           <!-- Card: Antigüedad de saldos -->
           <div
-            class="col-span-3 bg-white border border-gray-200 rounded-xl p-4 shadow-sm overflow-x-auto"
+            class="col-span-3 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm overflow-x-auto"
           >
-            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-3"
-              >Antigüedad de saldos</span
-            >
-            <table class="w-full text-sm text-gray-700">
+            <span class="text-xs font-bold text-blue-900 uppercase tracking-widest block mb-4">
+              Antigüedad de saldos
+            </span>
+            <table class="w-full text-xs text-gray-700">
               <thead>
-                <tr class="text-white text-xs uppercase tracking-wider">
-                  <th class="bg-blue-900 px-4 py-3 font-medium text-right rounded-tl-lg">Total</th>
-                  <th class="bg-pink-600 px-4 py-3 font-medium text-right">No vencido</th>
-                  <th class="bg-pink-600 px-4 py-3 font-medium text-right">0 – 30</th>
-                  <th class="bg-pink-600 px-4 py-3 font-medium text-right">31 – 45</th>
-                  <th class="bg-pink-600 px-4 py-3 font-medium text-right">46 – 60</th>
-                  <th class="bg-pink-600 px-4 py-3 font-medium text-right">61 – 90</th>
-                  <th class="bg-pink-600 px-4 py-3 font-medium text-right">91 – 180</th>
-                  <th class="bg-pink-600 px-4 py-3 font-medium text-right rounded-tr-lg">+ 180</th>
+                <tr class="text-white text-[10px] uppercase tracking-wider">
+                  <th class="bg-blue-900 px-4 py-2.5 font-medium text-right rounded-tl-lg">
+                    Total
+                  </th>
+                  <th class="bg-pink-600 px-4 py-2.5 font-medium text-right">No vencido</th>
+                  <th class="bg-pink-600 px-4 py-2.5 font-medium text-right">0 – 30</th>
+                  <th class="bg-pink-600 px-4 py-2.5 font-medium text-right">31 – 45</th>
+                  <th class="bg-pink-600 px-4 py-2.5 font-medium text-right">46 – 60</th>
+                  <th class="bg-pink-600 px-4 py-2.5 font-medium text-right">61 – 90</th>
+                  <th class="bg-pink-600 px-4 py-2.5 font-medium text-right">91 – 180</th>
+                  <th class="bg-pink-600 px-4 py-2.5 font-medium text-right rounded-tr-lg">
+                    + 180
+                  </th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-gray-100">
+              <tbody>
                 <tr class="hover:bg-gray-50 transition-colors">
-                  <td class="px-4 py-2.5 text-right font-mono font-semibold text-blue-900">
+                  <td class="px-4 py-2.5 text-right font-mono font-bold text-blue-900">
                     {{ totalSaldo | number: '1.2-2' }}
                   </td>
-                  <td class="px-4 py-2.5 text-right font-mono">
+                  <td class="px-4 py-2.5 text-right font-mono text-green-700">
                     {{ getRecibosNoVencidosPorMonto() | number: '1.2-2' }}
                   </td>
                   <td class="px-4 py-2.5 text-right font-mono">
@@ -484,13 +499,13 @@
                   <td class="px-4 py-2.5 text-right font-mono">
                     {{ getRecibosVencidosPorMonto(46, 60) | number: '1.2-2' }}
                   </td>
-                  <td class="px-4 py-2.5 text-right font-mono">
+                  <td class="px-4 py-2.5 text-right font-mono text-orange-600">
                     {{ getRecibosVencidosPorMonto(61, 90) | number: '1.2-2' }}
                   </td>
-                  <td class="px-4 py-2.5 text-right font-mono">
+                  <td class="px-4 py-2.5 text-right font-mono text-red-500">
                     {{ getRecibosVencidosPorMonto(91, 180) | number: '1.2-2' }}
                   </td>
-                  <td class="px-4 py-2.5 text-right font-mono">
+                  <td class="px-4 py-2.5 text-right font-mono text-red-700 font-semibold">
                     {{ getRecibosVencidosPorMonto(180, 10 / 0) | number: '1.2-2' }}
                   </td>
                 </tr>
@@ -500,36 +515,35 @@
 
           <!-- Card: Detalle facturas -->
           <div
-            class="col-span-full bg-white border border-gray-200 rounded-xl p-4 shadow-sm overflow-x-auto"
+            class="col-span-full bg-white border border-gray-200 rounded-2xl p-5 shadow-sm overflow-x-auto"
           >
-            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-3"
-              >Detalle de cuentas por cobrar</span
-            >
-            <table class="w-full text-sm text-gray-700">
+            <span class="text-xs font-bold text-blue-900 uppercase tracking-widest block mb-4">
+              Detalle de cuentas por cobrar
+            </span>
+            <table class="w-full text-xs text-gray-700">
               <thead>
-                <tr class="bg-pink-600 text-white text-left text-xs uppercase tracking-wider">
-                  <th class="px-4 py-3 font-medium rounded-tl-lg">Razón Social</th>
-                  <th class="px-4 py-3 font-medium text-center">Días</th>
-                  <th class="px-4 py-3 font-medium">Documento</th>
-                  <th class="px-4 py-3 font-medium text-center">Emisión</th>
-                  <th class="px-4 py-3 font-medium text-center">Vencimiento</th>
-                  <th class="px-4 py-3 font-medium text-center">N° Único</th>
-                  <th class="px-4 py-3 font-medium">Banco</th>
-                  <th class="px-4 py-3 font-medium text-right">Importe USD</th>
-                  <th class="px-4 py-3 font-medium text-right rounded-tr-lg">Saldo USD</th>
+                <tr class="bg-blue-900 text-white text-left text-[10px] uppercase tracking-wider">
+                  <th class="px-4 py-2.5 font-medium rounded-tl-lg">Razón Social</th>
+                  <th class="px-4 py-2.5 font-medium text-center">Días</th>
+                  <th class="px-4 py-2.5 font-medium">Documento</th>
+                  <th class="px-4 py-2.5 font-medium text-center">Emisión</th>
+                  <th class="px-4 py-2.5 font-medium text-center">Vencimiento</th>
+                  <th class="px-4 py-2.5 font-medium text-center">N° Único</th>
+                  <th class="px-4 py-2.5 font-medium">Banco</th>
+                  <th class="px-4 py-2.5 font-medium text-right">Importe USD</th>
+                  <th class="px-4 py-2.5 font-medium text-right rounded-tr-lg">Saldo USD</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100">
                 @for (grupo of facturasPorCobrarAgrupadas; track $index) {
-                  <!-- Fila resumen del cliente (clickeable) -->
                   <tr
-                    class="bg-blue-50 hover:bg-blue-100 transition-colors cursor-pointer font-semibold text-blue-900"
+                    class="bg-blue-50/60 hover:bg-blue-100/60 transition-colors cursor-pointer font-semibold text-blue-900"
                     (click)="toggleCliente(grupo.nombre)"
                   >
                     <td class="px-4 py-2.5 flex items-center gap-2">
                       @if (clientesExpandidos.has(grupo.nombre)) {
                         <svg
-                          class="w-4 h-4 text-blue-500 transition-transform"
+                          class="w-3.5 h-3.5 text-blue-500 transition-transform"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -539,7 +553,7 @@
                         </svg>
                       } @else {
                         <svg
-                          class="w-4 h-4 text-blue-500 transition-transform"
+                          class="w-3.5 h-3.5 text-blue-500 transition-transform"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -549,6 +563,9 @@
                         </svg>
                       }
                       {{ grupo.nombre }}
+                      <span class="ml-1 text-[10px] text-blue-500 font-normal"
+                        >({{ grupo.facturas.length }})</span
+                      >
                     </td>
                     <td class="px-4 py-2.5 text-center">—</td>
                     <td class="px-4 py-2.5">—</td>
@@ -564,36 +581,35 @@
                     </td>
                   </tr>
 
-                  <!-- Filas detalle (solo si el cliente está expandido) -->
                   @if (clientesExpandidos.has(grupo.nombre)) {
                     @for (cxc of grupo.facturas; track $index) {
-                      <tr class="hover:bg-gray-50 transition-colors even:bg-gray-50/50 text-xs">
-                        <td class="px-4 py-2 pl-10 text-gray-500">{{ cxc.nombre }}</td>
-                        <td class="px-4 py-2 text-center">
+                      <tr class="hover:bg-gray-50/80 transition-colors text-[11px]">
+                        <td class="px-4 py-1.5 pl-10 text-gray-500">{{ cxc.nombre }}</td>
+                        <td class="px-4 py-1.5 text-center">
                           <span
-                            class="px-2 py-0.5 rounded-full text-xs font-medium"
+                            class="px-2 py-0.5 rounded-full text-[10px] font-semibold"
                             [class]="
                               calDiasVencimiento(cxc.vencimiento) > 0
-                                ? 'bg-red-100 text-red-700'
-                                : 'bg-green-100 text-green-700'
+                                ? 'bg-red-50 text-red-600'
+                                : 'bg-green-50 text-green-600'
                             "
                           >
                             {{ calDiasVencimiento(cxc.vencimiento) }}
                           </span>
                         </td>
-                        <td class="px-4 py-2">{{ cxc.comprobante }}</td>
-                        <td class="px-4 py-2 text-center">
+                        <td class="px-4 py-1.5 text-gray-600">{{ cxc.comprobante }}</td>
+                        <td class="px-4 py-1.5 text-center text-gray-600">
                           {{ cxc.emision | date: 'dd/MM/yyyy' }}
                         </td>
-                        <td class="px-4 py-2 text-center">
+                        <td class="px-4 py-1.5 text-center text-gray-600">
                           {{ cxc.vencimiento | date: 'dd/MM/yyyy' }}
                         </td>
-                        <td class="px-4 py-2 text-center">{{ 0 }}</td>
-                        <td class="px-4 py-2">{{ 'banco' }}</td>
-                        <td class="px-4 py-2 text-right font-mono">
+                        <td class="px-4 py-1.5 text-center text-gray-500">{{ 0 }}</td>
+                        <td class="px-4 py-1.5 text-gray-500">{{ 'banco' }}</td>
+                        <td class="px-4 py-1.5 text-right font-mono text-gray-700">
                           {{ cxc.importe | number: '1.2-2' }}
                         </td>
-                        <td class="px-4 py-2 text-right font-mono">
+                        <td class="px-4 py-1.5 text-right font-mono text-gray-700">
                           {{ cxc.saldo | number: '1.2-2' }}
                         </td>
                       </tr>
@@ -602,17 +618,17 @@
                 }
               </tbody>
               <tfoot>
-                <tr class="bg-blue-900 text-white font-semibold text-sm">
+                <tr class="bg-blue-900 text-white font-semibold text-xs">
                   <td
                     colspan="7"
-                    class="px-4 py-3 text-right uppercase tracking-wide rounded-bl-lg"
+                    class="px-4 py-2.5 text-right uppercase tracking-widest rounded-bl-lg"
                   >
                     Total
                   </td>
-                  <td class="px-4 py-3 text-right font-mono">
+                  <td class="px-4 py-2.5 text-right font-mono">
                     {{ totalImporte | number: '1.2-2' }}
                   </td>
-                  <td class="px-4 py-3 text-right font-mono rounded-br-lg">
+                  <td class="px-4 py-2.5 text-right font-mono rounded-br-lg">
                     {{ totalSaldo | number: '1.2-2' }}
                   </td>
                 </tr>
